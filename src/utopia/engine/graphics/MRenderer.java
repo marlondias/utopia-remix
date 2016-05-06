@@ -6,8 +6,7 @@
 
 package utopia.engine.graphics;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import utopia.basic.GameGraphics;
 import utopia.engine.graphics.canvas.MCanvas;
 import utopia.engine.graphics.canvas.MCanvas2;
 import utopia.engine.graphics.canvas.MCanvasTile;
@@ -176,110 +175,8 @@ public class MRenderer {
         drawCanvas(canvas);
     }
     
-    private void fastBlur(int radius, int[] pixels){
-        //Stackoverflow wins!!
-        if (radius < 1) return;
-        
-        int wm=WIDTH-1;
-        int hm=HEIGHT-1;
-        int vetSize=WIDTH*HEIGHT;
-        int div = radius + radius + 1;
-        
-        int r[]=new int[vetSize];
-        int g[]=new int[vetSize];
-        int b[]=new int[vetSize];
-        
-        int rsum,gsum,bsum,x,y,i,p,p1,p2,yp,yi,yw;
-        int vmin[] = new int[max(WIDTH,HEIGHT)];
-        int vmax[] = new int[max(WIDTH,HEIGHT)];
-        
-        int dv[]=new int[256*div];
-        for (i=0;i<256*div;i++){
-            dv[i]=(i/div); 
-        }
-        
-        yw=yi=0;
-
-        for (y=0; y<HEIGHT; y++){
-            rsum=gsum=bsum=0;
-            for(i=-radius;i<=radius;i++){
-                p=pixels[yi+min(wm,max(i,0))];
-                rsum+=(p & 0xff0000)>>16;
-                gsum+=(p & 0x00ff00)>>8;
-                bsum+= p & 0x0000ff;
-            }
-
-            for (x=0;x<WIDTH;x++){
-                r[yi]=dv[rsum];
-                g[yi]=dv[gsum];
-                b[yi]=dv[bsum];
-
-                if(y==0){
-                    vmin[x]=min(x+radius+1,wm);
-                    vmax[x]=max(x-radius,0);
-                } 
-                p1=pixels[yw+vmin[x]];
-                p2=pixels[yw+vmax[x]];
-
-                rsum+=((p1 & 0xff0000)-(p2 & 0xff0000))>>16;
-                gsum+=((p1 & 0x00ff00)-(p2 & 0x00ff00))>>8;
-                bsum+= (p1 & 0x0000ff)-(p2 & 0x0000ff);
-                yi++;
-            }
-            yw+=WIDTH;
-        }
-
-        for (x=0;x<WIDTH;x++){
-            rsum=gsum=bsum=0;
-            yp=-radius*WIDTH;
-            for(i=-radius;i<=radius;i++){
-                yi=max(0,yp)+x;
-                rsum+=r[yi];
-                gsum+=g[yi];
-                bsum+=b[yi];
-                yp+=WIDTH;
-            }
-            yi=x;
-
-            for (y=0;y<HEIGHT;y++){
-                pixels[yi]=0xff000000 | (dv[rsum]<<16) | (dv[gsum]<<8) | dv[bsum];
-                if(x==0){
-                    vmin[y]=min(y+radius+1,hm)*WIDTH;
-                    vmax[y]=max(y-radius,0)*WIDTH;
-                } 
-                p1=x+vmin[y];
-                p2=x+vmax[y];
-
-                rsum+=r[p1]-r[p2];
-                gsum+=g[p1]-g[p2];
-                bsum+=b[p1]-b[p2];
-                yi+=WIDTH;
-            }
-        }
-    }  
     
-    private void drugsEffect(){
-        for (int y=0; y<HEIGHT; y++){
-            for (int x=0; x<WIDTH; x++){
-                if (((pixelMatrix[x][y] >> 16) & 0xff) < 255) pixelMatrix[x][y] -= 0x000000; //red
-                else pixelMatrix[x][y] += 0x010000;
-
-                if (((pixelMatrix[x][y] >> 8) & 0xff) < 255) pixelMatrix[x][y] -= 0x000100; //green
-                else pixelMatrix[x][y] += 0x010000;
-
-                if ((pixelMatrix[x][y] & 0xff) < 255) pixelMatrix[x][y] -= 0x000001; //blue
-                else pixelMatrix[x][y] += 0x010001;        
-            }
-        }
-    }
     
-    private void invertEffect(){
-        for (int y=0; y<HEIGHT; y++){
-            for (int x=0; x<WIDTH; x++){
-                pixelMatrix[x][y] = 0xffffffff - pixelMatrix[x][y];
-            }
-        }
-    }
     
     private void moveThings(){
         if ((camada1.xPosition -camada1.getWidth()) < WIDTH) camada1.xPosition++;
@@ -305,16 +202,16 @@ public class MRenderer {
     private void preRender(){
         
         //Deve seguir a ordem de empilhamento (fundo primeiro, depois os de cima, topo por ultimo).
-        //moveThings();
-        //drawCanvas(camada1);        
+        moveThings();
+        drawCanvas(camada1);        
         drawCanvas(camada2);
-        //drawCanvas(camada3);
-        //if (pixelMatrix[0][0] < 0xff606060) drawCanvas(camada4);
+        drawCanvas(camada3);
+        if (pixelMatrix[0][0] < 0xff606060) drawCanvas(camada4);
     }
 
-    public void render(int[] pixels){
-        if (pixels == null) return;
-        pixelMatrix = new int[WIDTH][HEIGHT]; //limpa a matriz
+    public int[] render(){
+    	int[] pixels = new int[WIDTH * HEIGHT];
+    	pixelMatrix = new int[WIDTH][HEIGHT]; //limpa a matriz
         
         preRender(); //Desenha todos os MCanvas na matriz
         
@@ -327,8 +224,7 @@ public class MRenderer {
             }
         }
         
-        //fastBlur(10, pixels);
-        
+        return pixels;
     }
 
 }

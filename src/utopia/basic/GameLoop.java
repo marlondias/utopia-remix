@@ -1,22 +1,11 @@
 package utopia.basic;
 
-//Imports para renderizar uma janela simples (sim, tudo isso)
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-//Imports para a biblioteca gráfica customizada
-import utopia.engine.graphics.MRenderer;
-import utopia.engine.graphics.MRenderer2;
-import utopia.engine.graphics.MTileset;
-import utopia.engine.graphics.canvas.MCanvasTile;
 
 
 public class GameLoop implements Runnable {
@@ -26,18 +15,11 @@ public class GameLoop implements Runnable {
 
     private JFrame frame; //janela para exibir o jogo
     private Canvas canvas; //tela para renderização
-
     private boolean running = false; //condição para o gameloop
-    private int tickCount;
-    
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); //cria uma imagem para mostrar na tela
-    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData(); //MACUMBA
-    
-    private InputHandler keyboard;
+        
     private GameGraphics gfx;
-    private MRenderer renderer;
-    private MRenderer2 renderer2;
-    private MCanvasTile tileCanvas;
+    private GameLogic logic;
+
     
     
     public GameLoop(){
@@ -58,17 +40,12 @@ public class GameLoop implements Runnable {
         frame.setVisible(true);
         
         gfx = new GameGraphics(canvas);
+        logic = new GameLogic(canvas, gfx);
     }
     
     
     public void init(){
-        keyboard = new InputHandler(canvas); //instancia e coloca o jogo como alvo
-
-        tileCanvas = new MCanvasTile(288, 288, new MTileset("res/tileset48-utopia2.png", 48, 48));
-        tileCanvas.show();
-        
-        renderer = new MRenderer(WIDTH, HEIGHT);
-        renderer2 = new MRenderer2(WIDTH, HEIGHT);
+    	//Não sei o que por aqui
     }
     
     public synchronized void start(){
@@ -91,7 +68,7 @@ public class GameLoop implements Runnable {
         long time_lastLoop = System.nanoTime(); //marca quando ocorreu o ultimo loop do WHILE abaixo
         long time_lastSecond = System.nanoTime(); //usado para exibir as informações a cada 1 segundo
         
-        init(); //chama a tileScreen
+        init(); //chama a titleScreen
         this.canvas.requestFocus();
         
         while (this.running){
@@ -104,7 +81,8 @@ public class GameLoop implements Runnable {
             while(delta >= 1){
                 //limitador de updates
                 ups++;
-                update();
+                //update();
+                logic.update();
                 delta -= 1;
                 renderNow = true;
             }
@@ -119,7 +97,6 @@ public class GameLoop implements Runnable {
             if (renderNow){
                 //limitador de frames
                 fps++;
-                //render();
                 gfx.render();
             }
             
@@ -133,45 +110,5 @@ public class GameLoop implements Runnable {
             }    
         }
     }
-    
-    public void update(){
-        //Lógica e matemática
-        
-        if (keyboard.up.isPressed()) tileCanvas.moveU();
-        if (keyboard.down.isPressed()) tileCanvas.moveD();
-        if (keyboard.left.isPressed()) tileCanvas.moveL();
-        if (keyboard.right.isPressed()) tileCanvas.moveR();        
-        //renderer.addCanvas(10,3, tileCanvas);
-    }
-    
-    public void render(){
-        //Gráficos
-
-    	BufferStrategy buffStr = canvas.getBufferStrategy(); //cria um buffer que faz "coisas"
-    	if (buffStr == null){
-            //se for nulo, crie um novo buffer
-            canvas.createBufferStrategy(3); //tripleBuffering (reduz defeitos de renderização)
-            return;
-        }
-
-    	if (pixels[0] % 5 == 0){
-        	for (int i=0; i<pixels.length; i++){
-                pixels[i] = 0xff000000 | (int)(System.nanoTime() >> 8);
-        	}    	
-    	}
-    	else{
-        	for (int i=0; i<pixels.length; i++){
-                pixels[i] += 13;
-        	}
-    	}
-
-        //renderer.render(pixels);
-        
-        Graphics gfx = buffStr.getDrawGraphics();
-        //gfx.drawRect(0, 0, getWidth(), getHeight()); //cria um retangulo do tamanho exato de FRAME
-        gfx.drawImage(this.image, 0, 0, canvas.getWidth(), canvas.getHeight(), null); //desenha o que estiver em IMAGE
-        gfx.dispose(); //libera manualmente os recursos usados
-        buffStr.show(); //exibe o que está no buffer
-    }  
 
 }
