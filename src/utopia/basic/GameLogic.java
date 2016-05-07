@@ -2,16 +2,17 @@ package utopia.basic;
 
 import java.awt.Canvas;
 import utopia.engine.graphics.MRenderer;
-import utopia.engine.graphics.MRenderer2;
 import utopia.engine.graphics.MTileset;
-import utopia.engine.graphics.canvas.MCanvasTile;
+import utopia.engine.graphics.TiledMap;
+import utopia.sobras.MCanvasTile;
+import utopia.sobras.MRenderer2;
 
 
 public class GameLogic {
-	private final GameGraphics graphics;
+	private GameGraphics graphics;
     private InputHandler keyboard;
-    private MCanvasTile tlCanvas;
-    private MRenderer mRendr;
+
+    private TiledMap terreno;
 
 	
 	public GameLogic(Canvas canvas, GameGraphics gg){
@@ -21,24 +22,21 @@ public class GameLogic {
         keyboard = new InputHandler(canvas); //associa o listener à tela
         
         graphics = gg;
-
-        mRendr = new MRenderer(canvas.getWidth(), canvas.getHeight());
-        tlCanvas = new MCanvasTile(288, 288, new MTileset(48, "res/tileset48-utopia2.png"));
-        tlCanvas.loadLevelFromImage("res/utopia-terreno-teste1.bmp");
-        tlCanvas.show();
+        terreno = new TiledMap(new MTileset(48, "res/tileset48-utopia2.png"), 50, 50, 450, 450);
 
 	}
 	
     public void update(){
         //Lógica e matemática
         
-        if (keyboard.up.isPressed()) tlCanvas.moveU();
-        if (keyboard.down.isPressed()) tlCanvas.moveD();
-        if (keyboard.left.isPressed()) tlCanvas.moveL();
-        if (keyboard.right.isPressed()) tlCanvas.moveR();
-        tlCanvas.updateTiles();
-        
-        graphics.addPixels(mRendr.render());
+        if (keyboard.up.isPressed()) terreno.moveU();
+        if (keyboard.down.isPressed()) terreno.moveD();
+        if (keyboard.left.isPressed()) terreno.moveL();
+        if (keyboard.right.isPressed()) terreno.moveR();
+
+        terreno.updateGraphics();
+        graphics.customDraw(terreno.getRenderedImage());
+
     }
 	
 }

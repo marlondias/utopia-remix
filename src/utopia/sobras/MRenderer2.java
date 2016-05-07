@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 
-package utopia.engine.graphics;
+package utopia.sobras;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import utopia.engine.graphics.canvas.MCanvas;
-import utopia.engine.graphics.canvas.MCanvas2;
-import utopia.engine.graphics.canvas.MCanvasTile;
 
 /**
  * Contém uma pilha de MCanvas e o método para renderizar os canvas visíveis.

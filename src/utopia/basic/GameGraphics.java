@@ -17,6 +17,9 @@ public class GameGraphics {
 	private Graphics graphics;
     private Graphics2D g2d;
 	private int[] imgPixels;
+	
+    private BufferedImage repassador; //teste
+
 
 	
 	public GameGraphics(Canvas canvas){
@@ -40,7 +43,8 @@ public class GameGraphics {
         try {
             g2d = buffImg.createGraphics();
 
-            //coisas aqui
+            //coisas aqui -- teste
+            g2d.drawImage(repassador, 0, 0, targetCanvas.getWidth(), targetCanvas.getHeight(), null);
  
             graphics = bs.getDrawGraphics();
             graphics.drawImage(buffImg, 0, 0, null);
@@ -111,5 +115,8 @@ public class GameGraphics {
     		}
     	}
     }
-    
+
+    public void customDraw(BufferedImage novaImg){
+    	this.repassador = novaImg;
+    }
 }

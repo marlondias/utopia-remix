@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 
-package utopia.engine.graphics.canvas;
+package utopia.sobras;
 
-import utopia.engine.graphics.MLevel;
 import utopia.engine.graphics.MTileset;
 
 /**

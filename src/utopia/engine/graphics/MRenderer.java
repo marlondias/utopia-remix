@@ -8,8 +8,8 @@ package utopia.engine.graphics;
 
 import utopia.basic.GameGraphics;
 import utopia.engine.graphics.canvas.MCanvas;
-import utopia.engine.graphics.canvas.MCanvas2;
-import utopia.engine.graphics.canvas.MCanvasTile;
+import utopia.sobras.MCanvas2;
+import utopia.sobras.MCanvasTile;
 
 /**
  * Contém uma pilha de MCanvas e o método para renderizar os canvas visíveis.

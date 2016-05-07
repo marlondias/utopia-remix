@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package utopia.engine.graphics;
+package utopia.sobras;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
