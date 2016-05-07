@@ -1,11 +1,8 @@
 package utopia.basic;
 
 import java.awt.Canvas;
-import utopia.engine.graphics.MRenderer;
 import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.TiledMap;
-import utopia.sobras.MCanvasTile;
-import utopia.sobras.MRenderer2;
 
 
 public class GameLogic {
@@ -13,16 +10,20 @@ public class GameLogic {
     private InputHandler keyboard;
 
     private TiledMap terreno;
+    private TiledMap terreno2;
 
 	
 	public GameLogic(Canvas canvas, GameGraphics gg){
-		//TUDO ERRADO! TIRE OS GRAFICOS DAQUI!!
 
 		//Coisas do init()
         keyboard = new InputHandler(canvas); //associa o listener à tela
         
         graphics = gg;
-        terreno = new TiledMap(new MTileset(48, "res/tileset48-utopia2.png"), 50, 50, 450, 450);
+        terreno = new TiledMap(new MTileset(48, "res/tileset48-utopia1.png"), 450, 450);
+        terreno2 = new TiledMap(new MTileset(32, "res/sprite_sheet32b.png"), 800, 600);
+
+        graphics.addLayer(0, 0, terreno2);
+        graphics.addLayer(0, 0, terreno);
 
 	}
 	
@@ -34,8 +35,6 @@ public class GameLogic {
         if (keyboard.left.isPressed()) terreno.moveL();
         if (keyboard.right.isPressed()) terreno.moveR();
 
-        terreno.updateGraphics();
-        graphics.customDraw(terreno.getRenderedImage());
 
     }
 	

@@ -4,11 +4,12 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+import java.util.LinkedList;
+
+import utopia.engine.graphics.MSurface;
 
 public class GameGraphics {
 	private final Canvas targetCanvas;
@@ -16,21 +17,15 @@ public class GameGraphics {
 	private BufferedImage buffImg;
 	private Graphics graphics;
     private Graphics2D g2d;
-	private int[] imgPixels;
-	
-    private BufferedImage repassador; //teste
-
+	private LinkedList<MSurface> layers;
 
 	
 	public GameGraphics(Canvas canvas){
 		this.targetCanvas = canvas;
 
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    GraphicsDevice gd = ge.getDefaultScreenDevice();
-	    GraphicsConfiguration gc = gd.getDefaultConfiguration();
-
+		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 		buffImg = gc.createCompatibleImage(canvas.getWidth(), canvas.getHeight());
-	    imgPixels = ((DataBufferInt)buffImg.getRaster().getDataBuffer()).getData(); //macumba para acessar os pixels
+		layers = new LinkedList<MSurface>();
 	}
 	
     public void render(){
@@ -43,8 +38,14 @@ public class GameGraphics {
         try {
             g2d = buffImg.createGraphics();
 
-            //coisas aqui -- teste
-            g2d.drawImage(repassador, 0, 0, targetCanvas.getWidth(), targetCanvas.getHeight(), null);
+            
+            //coisas aqui..
+            for (int i=0; i<layers.size(); i++){
+            	layers.get(i).updateGraphics();
+            	BufferedImage tmp = layers.get(i).getRenderedImage();
+                g2d.drawImage(tmp, 0, 0, tmp.getWidth(), tmp.getHeight(), null);
+            }
+            
  
             graphics = bs.getDrawGraphics();
             graphics.drawImage(buffImg, 0, 0, null);
@@ -75,48 +76,8 @@ public class GameGraphics {
 
     }
 
-    private int blend(int newPixel, int oldPixel){
-    	//Sobrepõe dois pixels ARGB
-        int newAlpha = newPixel & 0xff000000;
-        if (newAlpha == 0xff000000) return newPixel; //pixel é opaco, substituir
-        else if (newAlpha == 0) return oldPixel; //pixel é transparente, ignorar
-        else {
-            //pixel é semi-transparente, aplicar AlphaBlend
-            int newB = newPixel & 0xff;
-            newPixel >>= 8;
-            int newG = newPixel & 0xff;
-            newPixel >>= 8;
-            int newR = newPixel & 0xff;
-            newPixel >>= 8;
-
-            int alpha = (newPixel) & 0xff;
-            int invAlpha = 256 - alpha;
-            int result = 0xff; //Novo pixel continuará opaco
-            alpha++;
-
-            result <<= 8;
-            result |= (( alpha * newR + invAlpha * ((oldPixel >> 16) & 0xff)) >> 8); //red
-            result <<= 8;
-            result |= (( alpha * newG + invAlpha * ((oldPixel >> 8) & 0xff)) >> 8); //green
-            result <<= 8;
-            result |= (( alpha * newB + invAlpha * ((oldPixel) & 0xff)) >> 8); //blue
-
-            return result;
-        }
+    public void addLayer(int x, int y, MSurface surface){
+    	layers.add(surface);
     }
 
-    public void addPixels(int[] pixels){
-    	//Adiciona pixels sobre os já existentes
-    	int i = 0;
-    	for(int y=0; y<(GameLoop.HEIGHT); y++){
-    		for(int x=0; x<(GameLoop.WIDTH); x++){
-    			imgPixels[i] = blend(pixels[i], imgPixels[i]);
-    			i++;
-    		}
-    	}
-    }
-
-    public void customDraw(BufferedImage novaImg){
-    	this.repassador = novaImg;
-    }
 }

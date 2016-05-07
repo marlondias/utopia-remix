@@ -7,19 +7,20 @@ import java.awt.image.BufferedImage;
 
 //Superfície 2d que controla e renderiza um mapa composto por tiles
 public class TiledMap extends MSurface {
+    private BufferedImage fullMap; //Imagem do mapa completo
+    private int mapWidth; //Dimensões do mapa (em pixels)
+    private int mapHeight;
+
 	private MTileset tileset; //Permite apenas 1 tileset para o canvas
 	private int tileWidth; //Dimensões da tile (pq o dimension é bosta)
     private int tileHeight;
     
-    private BufferedImage fullMap;
-    private int mapWidth;
-    private int mapHeight;
     
 
     private int WIDTH;
     private int HEIGHT;
     private boolean valid;
-    private final int BUG_LEVEL = 10;
+    private final int BUG_LEVEL = 20;
 
     private int visibleTilesX;
     private int visibleTilesY;
@@ -32,8 +33,8 @@ public class TiledMap extends MSurface {
     private boolean needUpdate = true;
 
 	
-	public TiledMap(MTileset tileset, int x, int y, int width, int height) {
-		super(x, y, width, height);
+	public TiledMap(MTileset tileset, int width, int height) {
+		super(width, height);
 
 		//Carrega os dados do tileset (sem verificação de segurança)
 		if (tileset.isValid()) this.tileset = tileset;
@@ -41,21 +42,21 @@ public class TiledMap extends MSurface {
 		this.tileHeight = (int)tileset.getTileDimensions().getHeight();
 		
 		
-		//Construa todo o mapa e guarde em uma imagem
 		//Cria uma imagem do tamanho necessário
-		this.mapWidth = tileWidth * 10;
-		this.mapHeight = tileHeight * 10;
+		this.mapWidth = tileWidth * BUG_LEVEL;
+		this.mapHeight = tileHeight * BUG_LEVEL;
 		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 		this.fullMap = gc.createCompatibleImage(mapWidth, mapHeight);
 		
 		//Constrói o mapa completo usando o tileset (e uma matriz de IDs)
 		Graphics2D g2 = fullMap.createGraphics();
-		for (int fakeY=0; fakeY<10; fakeY++){
-			for (int fakeX=0; fakeX<10; fakeX++){
+		for (int fakeY=0; fakeY<BUG_LEVEL; fakeY++){
+			for (int fakeX=0; fakeX<BUG_LEVEL; fakeX++){
 				//preenche o mapa com qualquer tile do tileset
+				byte tileID = (byte)(15 & System.currentTimeMillis());
 				int xPos = fakeX * tileWidth;
 				int yPos = fakeY * tileHeight;
-				g2.drawImage(this.tileset.getTile(1), xPos, yPos, (xPos + tileWidth), (yPos + tileHeight), 0, 0, tileWidth, tileHeight, null);
+				g2.drawImage(this.tileset.getTile(tileID), xPos, yPos, (xPos + tileWidth), (yPos + tileHeight), 0, 0, tileWidth, tileHeight, null);
 			}
 		}
 		g2.dispose();
@@ -76,8 +77,7 @@ public class TiledMap extends MSurface {
 	}
 
 	
-	
-	
+	//revisar tudo abaixo
     
     private void checkBorders(){
         if (valid == false) return;
@@ -208,7 +208,7 @@ public class TiledMap extends MSurface {
 		//Copia apenas a porção visível do FULLMAP
 		int xPos = xOffset + (xTileOffset * tileWidth);
 		int yPos = yOffset + (yTileOffset * tileHeight);
-		super.drawingSurface.drawImage(fullMap, 0, 0, super.getWidth(), super.getHeight(), xPos, yPos, (xPos + super.getWidth()), (xPos + super.getHeight()), null);
+		super.drawingSurface.drawImage(fullMap, 0, 0, super.getWidth(), super.getHeight(), xPos, yPos, (xPos + super.getWidth()), (yPos + super.getHeight()), null);
 	
         needUpdate = false; //As mudanças já ocorreram
 	}
