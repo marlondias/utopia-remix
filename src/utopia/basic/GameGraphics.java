@@ -1,5 +1,6 @@
 package utopia.basic;
 
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,18 +18,25 @@ public class GameGraphics {
 	private BufferedImage buffImg;
 	private Graphics graphics;
     private Graphics2D g2d;
+    private final AlphaComposite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
 	private LinkedList<MSurface> layers;
 
 	
 	public GameGraphics(Canvas canvas){
 		this.targetCanvas = canvas;
-
 		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 		buffImg = gc.createCompatibleImage(canvas.getWidth(), canvas.getHeight());
 		layers = new LinkedList<MSurface>();
 	}
 	
+	
     public void render(){
+    	/* 
+    	 * Cria uma imagem do tamanho de CANVAS e desenha tudo o que estiver
+    	 * na pilha LAYERS, se possível.
+    	 * Finaliza copiando a imagem para o buffer e libera os recursos.
+    	 */
+    	
         bs = targetCanvas.getBufferStrategy(); //associa um buffer, ou cria se necessário
     	if (bs == null){
             targetCanvas.createBufferStrategy(2);
@@ -37,14 +45,21 @@ public class GameGraphics {
 
         try {
             g2d = buffImg.createGraphics();
+            //g2d.setComposite(comp);
+
 
             
-            //coisas aqui..
+            //A magia acontece aqui..
             for (int i=0; i<layers.size(); i++){
             	layers.get(i).updateGraphics();
+            	int x = layers.get(i).posX;
+            	int y = layers.get(i).posY;
             	BufferedImage tmp = layers.get(i).getRenderedImage();
-                g2d.drawImage(tmp, 0, 0, tmp.getWidth(), tmp.getHeight(), null);
+            	if (tmp != null){
+            		g2d.drawImage(tmp, x, y, tmp.getWidth(), tmp.getHeight(), null);
+            	}
             }
+
             
  
             graphics = bs.getDrawGraphics();
@@ -76,7 +91,7 @@ public class GameGraphics {
 
     }
 
-    public void addLayer(int x, int y, MSurface surface){
+    public void addLayer(MSurface surface){
     	layers.add(surface);
     }
 

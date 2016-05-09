@@ -37,10 +37,10 @@ public class MAnimationSheet {
         
     	//Tenta o carregamento usando PATH como endereço da imagem
         try {
-            img = ImageIO.read(new File(path));
-        } catch (IOException ex) {
-            Logger.getLogger(MTileset.class.getName()).log(Level.SEVERE, null, ex);
-        }
+			img = ImageIO.read(new File(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         if (img == null) return;
 
         //Verifica se o tamanho da imagem é compatível com a animação
@@ -49,12 +49,12 @@ public class MAnimationSheet {
         if ((img.getHeight() / height) < frames) return; //Não tem frames suficientes
 
         
-        //Limitador1 (imagem deve conter apenas uma coluna com os frames de) -- remover
+        //Limitador1 (imagem deve conter apenas uma coluna com os frames) -- remover
         if (img.getWidth() > width) return;
         
         
         this.lastFrame = img.getSubimage(0, 0, this.width, this.height);
-        this.lastUpdate = 0L;
+        this.lastUpdate = System.currentTimeMillis();
         
         this.valid = true; //A animação pode ser acessada com segurança
     }
@@ -88,16 +88,16 @@ public class MAnimationSheet {
     	//Retorna a imagem do frame atual e atualiza o estado da animação
     	
     	if (running){
-			if (System.nanoTime() - lastUpdate >= frameDuration){
+			if (System.currentTimeMillis() - lastUpdate >= frameDuration){
                 //Hora de avançar o frame
 				currentFrame++;
 				if (currentFrame >= frameCount) currentFrame = 0;
 
-		    	int posX = 0; //Lembrete: use posX para trocar entre "poses"
-		    	int posY = currentFrame * this.height;
+		    	int posX = currentFrame * this.width;
+		    	int posY = 0; //Lembrete: use posX para trocar entre "poses" diferentes
 
-				lastUpdate = System.nanoTime();
-		    	return img.getSubimage(posX, posY, this.width, this.height);
+				lastUpdate = System.currentTimeMillis();
+				lastFrame = img.getSubimage(posX, posY, this.width, this.height);
 			}
     	}
 

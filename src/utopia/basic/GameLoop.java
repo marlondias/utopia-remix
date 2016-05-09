@@ -33,10 +33,10 @@ public class GameLoop implements Runnable {
         frame.setIgnoreRepaint(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //quando fechar, mata a jframe
         frame.setResizable(false);
-        frame.setLocationRelativeTo(null); //não interfere na posição
         frame.setLayout(new BorderLayout()); //evita erro com a borda        
         frame.add(canvas, BorderLayout.CENTER); //coloca o Canvas dentro desta janela
         frame.pack(); //mantem as dimensões perto do PreferredSize
+        frame.setLocationRelativeTo(null); //centraliza
         frame.setVisible(true);
         
         gfx = new GameGraphics(canvas);
