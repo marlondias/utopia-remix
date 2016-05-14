@@ -1,16 +1,20 @@
-package utopia.engine.graphics;
+package utopia.engine.graphics.msurfaces;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import utopia.engine.graphics.MSurface;
+
 public class StaticImage extends MSurface {
 
 	
 	public StaticImage(int width, int height, String path) {
 		super(width, height);
+		if (path == null) return;
 		this.loadImage(path);
+		super.validate();
 	}
 
 	
@@ -20,12 +24,10 @@ public class StaticImage extends MSurface {
         try {
 			img = ImageIO.read(new File(path));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         if (img == null) return;
-        
-		super.drawingSurface.drawImage(img, 0, 0, super.getWidth(), super.getHeight(), 0, 0, img.getWidth(), img.getHeight(), null);
+        super.drawBuffImg(img);
 	}
 	
 	@Override

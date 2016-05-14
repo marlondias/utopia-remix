@@ -1,9 +1,12 @@
-package utopia.engine.graphics;
+package utopia.engine.graphics.msurfaces;
 
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
+
+import utopia.engine.graphics.MSurface;
+import utopia.engine.graphics.MTileset;
 
 //Superfície 2d que controla e renderiza um mapa composto por tiles
 public class TiledMap extends MSurface {
@@ -53,7 +56,7 @@ public class TiledMap extends MSurface {
 		for (int fakeY=0; fakeY<BUG_LEVEL; fakeY++){
 			for (int fakeX=0; fakeX<BUG_LEVEL; fakeX++){
 				//preenche o mapa com qualquer tile do tileset
-				byte tileID = (byte)(15 & System.currentTimeMillis());
+				byte tileID = (byte)(7 & System.currentTimeMillis());
 				int xPos = fakeX * tileWidth;
 				int yPos = fakeY * tileHeight;
 				g2.drawImage(this.tileset.getTile(tileID), xPos, yPos, (xPos + tileWidth), (yPos + tileHeight), 0, 0, tileWidth, tileHeight, null);
@@ -74,6 +77,7 @@ public class TiledMap extends MSurface {
         this.HEIGHT = height;
         this.valid = true;
 		
+        super.validate();
 	}
 
 	
@@ -208,7 +212,7 @@ public class TiledMap extends MSurface {
 		//Copia apenas a porção visível do FULLMAP
 		int xPos = xOffset + (xTileOffset * tileWidth);
 		int yPos = yOffset + (yTileOffset * tileHeight);
-		super.drawingSurface.drawImage(fullMap, 0, 0, super.getWidth(), super.getHeight(), xPos, yPos, (xPos + super.getWidth()), (yPos + super.getHeight()), null);
+		super.drawBuffImg(fullMap, xPos, yPos, xPos+super.getWidth(), yPos+super.getHeight());
 	
         needUpdate = false; //As mudanças já ocorreram
 	}

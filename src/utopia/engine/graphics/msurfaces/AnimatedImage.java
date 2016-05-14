@@ -1,6 +1,9 @@
-package utopia.engine.graphics;
+package utopia.engine.graphics.msurfaces;
 
 import java.awt.image.BufferedImage;
+
+import utopia.engine.graphics.MAnimationSheet;
+import utopia.engine.graphics.MSurface;
 
 public class AnimatedImage extends MSurface {
 	private MAnimationSheet animSheet;
@@ -8,7 +11,10 @@ public class AnimatedImage extends MSurface {
 	
 	public AnimatedImage(int width, int height, MAnimationSheet anim) {
 		super(width, height);
+		if (anim == null) return;
 		this.animSheet = anim;
+		super.validate();
+
 		this.animSheet.play(); //mudar?
 	}
 	
@@ -28,7 +34,7 @@ public class AnimatedImage extends MSurface {
 	@Override
 	public void updateGraphics() {
 		BufferedImage img = animSheet.getFrame();
-		super.drawingSurface.drawImage(img, 0, 0, super.getWidth(), super.getHeight(), 0, 0, img.getWidth(), img.getHeight(), null);
+		super.drawBuffImg(img);
 	}
 
 }

@@ -1,6 +1,4 @@
-- Renderizar textos.
 
-- Renderizar botões interativos.
 
 - Criar classe que representa a montagem de uma tela (objetos e posicionamentos).
 
@@ -9,5 +7,6 @@
 - Criar um modo de guardar todas as informações sobre um Level.
 Terreno, estruturas, veículos, condições, população, governante, achievements,  eventos ocorridos, tempo de jogo..).
 
-- Usar o laurel com o planeta no centro como indicador de reputação. Quanto mais folhas, melhor (até envolver o globo).
+- Renderizar botões interativos.
 
+- Usar o laurel com o planeta no centro como indicador de reputação. Quanto mais folhas, melhor (até envolver o globo).

@@ -1,6 +1,5 @@
 package utopia.basic;
 
-import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,7 +17,6 @@ public class GameGraphics {
 	private BufferedImage buffImg;
 	private Graphics graphics;
     private Graphics2D g2d;
-    private final AlphaComposite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
 	private LinkedList<MSurface> layers;
 
 	
@@ -50,13 +48,14 @@ public class GameGraphics {
 
             
             //A magia acontece aqui..
+            int px, py;
+            BufferedImage tmp;
             for (int i=0; i<layers.size(); i++){
-            	layers.get(i).updateGraphics();
-            	int x = layers.get(i).posX;
-            	int y = layers.get(i).posY;
-            	BufferedImage tmp = layers.get(i).getRenderedImage();
+            	tmp = layers.get(i).getRenderedImage();
+            	px = layers.get(i).getX();
+            	py = layers.get(i).getY();
             	if (tmp != null){
-            		g2d.drawImage(tmp, x, y, tmp.getWidth(), tmp.getHeight(), null);
+            		g2d.drawImage(tmp, px, py, tmp.getWidth(), tmp.getHeight(), null);
             	}
             }
 

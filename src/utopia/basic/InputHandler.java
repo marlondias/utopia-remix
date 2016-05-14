@@ -76,10 +76,10 @@ public class InputHandler implements KeyListener {
         }
 
         //Números 1 e 2
-        if (keyCode == KeyEvent.VK_2){
+        if (keyCode == KeyEvent.VK_1){
             num1.setPressed(isPressed);
         }
-        if (keyCode == KeyEvent.VK_1){
+        if (keyCode == KeyEvent.VK_2){
             num2.setPressed(isPressed);
         }
     }
