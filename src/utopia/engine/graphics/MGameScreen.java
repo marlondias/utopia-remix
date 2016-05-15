@@ -1,22 +1,36 @@
 package utopia.engine.graphics;
 
-import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+
+import utopia.basic.GameGraphics;
+import utopia.basic.InputHandler;
 
 // Guarda e organiza todos os MSurfaces e suas posições
 public abstract class MGameScreen {
-	private int transicao; //Nivel da transição para exibir/ocultar (0% - 100%)
-	private int onScreen; //Se está visível e pode receber interação
-
+	protected GameGraphics graphics;
+	protected InputHandler input;
+	protected LinkedList<MSurface> surfaces = new LinkedList<MSurface>();
+	private boolean onScreen; //Se está visível e pode receber interação
+	//private int transition; //Nivel da transição para exibir/ocultar (0% - 100%)
 	
-	protected abstract void checkKeyboard(); //Verifica as teclas e ativa coisas..
 	
-	protected abstract void checkMouse(); //One day..
+	protected MGameScreen(GameGraphics gg, InputHandler ih){
+		this.graphics = gg;
+		this.input = ih;
+	}
 	
-	protected abstract void updateAll(); //Chama update em todos os objetos
 	
-	public BufferedImage getGraphics(){
-		//Passa por todos os objetos e cria a imagem final, com a tela completa
-		return null;
+	public void show(){
+		this.onScreen = true;
+	}
+	public void hide(){
+		this.onScreen = false;
+	}
+	
+	public abstract void updateAll(); //Verifica as teclas e ativa coisas..
+	
+	public LinkedList<MSurface> getGraphics(){
+		return (onScreen) ? this.surfaces : null;
 	}
 
 }

@@ -1,12 +1,8 @@
 
+- Enum com as raças disponíveis
+- Cada raça terá atributos que afetam o desenvolvimento da colônia (taxa de reprodução, tempo de vida, resistência a doenças, submissão ao governo)
 
-- Criar classe que representa a montagem de uma tela (objetos e posicionamentos).
 
-- Regular movimento de deslocamento do mapa (tá muito lento).
-
-- Criar um modo de guardar todas as informações sobre um Level.
-Terreno, estruturas, veículos, condições, população, governante, achievements,  eventos ocorridos, tempo de jogo..).
-
-- Renderizar botões interativos.
+- Renderizar botões interativos (piscam - botoes 1,2,3...9,0).
 
 - Usar o laurel com o planeta no centro como indicador de reputação. Quanto mais folhas, melhor (até envolver o globo).
