@@ -14,8 +14,8 @@ public class Block {
 		if (type.equals(BlockType.MOSS)) hasMoss = true;
 	}
 	
-	public boolean build(int structure){
-		//Checar se o tipo permite construção
+	public boolean allowBuilding(int structure){
+		//Verifica se a estrutura informada pode ser colocada neste bloco
 		
 		if (hasStructure) return false; //Ja tem algo aqui
 		
