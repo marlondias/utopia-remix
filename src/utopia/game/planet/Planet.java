@@ -1,4 +1,4 @@
-package utopia.game.level;
+package utopia.game.planet;
 
 //Representa um planeta e coisas fixas dele
 public class Planet {
@@ -16,15 +16,13 @@ public class Planet {
 	
 	
 	public int[][] getTerrainMap(){
-		//Versão de testes
+		//Versão de testes (que funciona very well)
 		int[][] tiles = new int[35][35];
-		
 		for(int y=0; y<35; y++){
 			for(int x=0; x<35; x++){
 				tiles[x][y] = terrain[x][y].getTileID();
 			}
 		}
-		
 		return tiles;
 	}
 	

@@ -6,27 +6,44 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
-import javax.swing.JFrame;
-
-//Guarda todas as preferências, configurações e objetos comuns
+//Guarda todas as preferências, configurações e OBJETOS COMUNS (melhor ideia ever!)
 public class GameSettings {
+	//TBD: Idioma, mapeamento de teclas, mouse, fullscreen...
+
 	private static final GraphicsEnvironment G_ENV = GraphicsEnvironment.getLocalGraphicsEnvironment(); //GE fixo
 	private static final Dimension RESOLUTION = new Dimension(800, 600); //Resolução da tela de jogo (pixels)
-	//Idioma a ser usado (0 = eng)
-	//Mapeamento de teclas
-
-	private static GameGraphics GG; //Faz toda a parte gráfica
+	private static final GameGraphics GG = new GameGraphics(); //Faz toda a parte gráfica
+	
+    private static Canvas canvas; //tela para renderização
     private static InputHandler INPUT; //Monitora o teclado
-
-    //Coisas do game loop
-    public static final int WIDTH = 800; //largura da tela
-    public static final int HEIGHT = 600;//(WIDTH / 16) * 9; //altura da tela (proporcão 16:9)
-    public static final int SCALE = 1; //multiplica o tamanho da tela
-    private JFrame frame; //janela para exibir o jogo
-    private Canvas canvas; //tela para renderização
+    private static final int SCALE = 1; //multiplica o tamanho da tela
 
     
+	public static void initCanvas(){
+		//Será ativada na criação do GameGraphics
+		int WIDTH = RESOLUTION.width;
+		int HEIGHT = RESOLUTION.height;
+		
+    	canvas = new Canvas();
+    	canvas.setIgnoreRepaint(true); //evita renderização passiva
+    	canvas.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE)); //mantem o tamanho da tela fixo
+        canvas.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        canvas.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        
+        INPUT = new InputHandler(canvas);
+	}
     
+	public static Canvas getCanvas(){
+		return canvas;
+	}
+
+	public static InputHandler getInputHandler(){
+		return INPUT;
+	}
+	
+	public static GameGraphics getGameGraphics(){
+		return GG;
+	}
 	
 	public static GraphicsDevice getDefaultGD(){
 		return G_ENV.getDefaultScreenDevice();

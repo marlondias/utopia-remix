@@ -7,8 +7,6 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import utopia.basic.GameGraphics;
-import utopia.basic.InputHandler;
 import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.msurfaces.TextLine;
 
@@ -32,8 +30,8 @@ public class GS_Info extends MGameScreen{
 	private DateFormat df = new SimpleDateFormat("dd MMM yyyy");
 
 	
-	public GS_Info(GameGraphics gg, InputHandler ih) {
-		super(gg, ih);
+	public GS_Info() {
+		super();
 		
 		labelPop = new TextLine("Population", labelFont);
 		labelCash = new TextLine("Money", labelFont);

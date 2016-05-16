@@ -1,4 +1,4 @@
-package utopia.game.level;
+package utopia.game.planet;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -131,22 +131,5 @@ public class Utils {
         
         return tiles;
     }
-
-	private static void plantSeed(int value, int[][] target, int width, int height){
-		for(int y=0; y<height; y++){
-			for(int x=0; x<width; x++){
-				if (rand.nextBoolean()){
-					//Coloca o valor apenas se houver espaço
-					if (target[x][y] == 0){
-						target[x][y] = value;
-						if ((x-1 >= 0) && (target[x-1][y] == 0)) target[x-1][y] = value;
-						if ((x+1 < width) && (target[x+1][y] == 0)) target[x-1][y] = value;
-						if ((y-1 >= 0) && (target[x][y-1] == 0)) target[x-1][y] = value;
-						if ((y+1 < height) && (target[x][y+1] == 0)) target[x-1][y] = value;
-					}
-				}
-			}
-		}
-	}
 	
 }

@@ -1,4 +1,4 @@
-package utopia.game.level;
+package utopia.game.planet;
 
 //Informações individuais de cada tile do planeta
 public class Block {
@@ -34,11 +34,19 @@ public class Block {
 	public void setFuel(){
 		hasFuel = true;
 	}
+	public boolean hasFuel(){
+		return this.hasFuel;
+	}
+
 	public void setOre(){
 		hasOre = true;
 	}
+	public boolean hasOre(){
+		return this.hasOre;
+	}
+
 	public int getTileID(){
 		return type.getTileID();
 	}
-
+	
 }

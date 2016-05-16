@@ -1,4 +1,4 @@
-package utopia.game.level;
+package utopia.game.planet;
 
 //Representa um recurso gerenciado pela colônia (exceto dinheiro e população)
 public class Resource {

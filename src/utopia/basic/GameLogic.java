@@ -1,15 +1,12 @@
 package utopia.basic;
 
-import java.awt.Canvas;
-
 import utopia.game.gscreen.GS_Background;
 import utopia.game.gscreen.GS_GameField;
 import utopia.game.gscreen.GS_Info;
 import utopia.game.gscreen.GS_MainUI;
 
 public class GameLogic {
-	private GameGraphics graphics;
-    private InputHandler keyboard;
+	private GameGraphics graphics = GameSettings.getGameGraphics();
 
     private GS_Background fundo;
     private GS_GameField campo1;
@@ -17,15 +14,11 @@ public class GameLogic {
     private GS_Info info;
 
 	
-	public GameLogic(Canvas canvas, GameGraphics gg){
-		//Coisas do init()
-        keyboard = new InputHandler(canvas); //associa o listener à tela
-        graphics = gg;
-
-        campo1 = new GS_GameField(graphics, keyboard);
-        fundo = new GS_Background(graphics, keyboard);
-        gui1 = new GS_MainUI(graphics, keyboard);
-        info = new GS_Info (graphics, keyboard);
+	public GameLogic(){
+        campo1 = new GS_GameField();
+        fundo = new GS_Background();
+        gui1 = new GS_MainUI();
+        info = new GS_Info ();
 
         campo1.show();
         fundo.show();

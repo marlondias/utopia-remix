@@ -3,8 +3,6 @@ package utopia.basic;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
@@ -21,8 +19,9 @@ public class GameGraphics {
 	private LinkedList<MGameScreen> layers = new LinkedList<MGameScreen>();
 
 	
-	public GameGraphics(Canvas canvas){
-		this.targetCanvas = canvas;
+	public GameGraphics(){
+		GameSettings.initCanvas();
+		this.targetCanvas = GameSettings.getCanvas();
 		this.buffImg = GameSettings.getDefaultGC().createCompatibleImage(GameSettings.getResolution().width, GameSettings.getResolution().height);
 	}
 	

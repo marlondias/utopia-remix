@@ -1,21 +1,18 @@
 package utopia.game.gscreen;
 
-
-import utopia.basic.GameGraphics;
-import utopia.basic.InputHandler;
 import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.msurfaces.StaticImage;
 import utopia.engine.graphics.msurfaces.TiledMap;
-import utopia.game.level.Planet;
+import utopia.game.planet.Planet;
 
 public class GS_GameField extends MGameScreen {
     private TiledMap terreno;
     private StaticImage moldura;
 
     
-    public GS_GameField(GameGraphics gg, InputHandler kbd) {
-    	super(gg, kbd);
+    public GS_GameField() {
+    	super();
     	
     	Planet lala = new Planet("Lalah");
 

@@ -1,4 +1,4 @@
-package utopia.game.level;
+package utopia.game.planet;
 
 public enum BlockType {
 	//TIPO (tile, walk, hover, build),

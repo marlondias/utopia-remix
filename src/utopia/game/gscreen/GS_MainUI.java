@@ -1,7 +1,5 @@
 package utopia.game.gscreen;
 
-import utopia.basic.GameGraphics;
-import utopia.basic.InputHandler;
 import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.msurfaces.StaticImage;
 
@@ -11,8 +9,8 @@ public class GS_MainUI extends MGameScreen {
     private StaticImage hud3;
 
     
-    public GS_MainUI(GameGraphics gg, InputHandler ih) {
-		super(gg, ih);
+    public GS_MainUI() {
+		super();
 
 		hud1 = new StaticImage(149, 150, "res/ui_elements/GUI-azul_status2.png");
         hud1.setPosition(44, 10);

@@ -1,46 +1,26 @@
 package utopia.basic;
 
 import javax.swing.JFrame;
-import java.awt.Canvas;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 public class GameLoop implements Runnable {
-    public static final int WIDTH = 800; //largura da tela
-    public static final int HEIGHT = 600;//(WIDTH / 16) * 9; //altura da tela (proporcão 16:9)
-    public static final int SCALE = 1; //multiplica o tamanho da tela
-
     private JFrame frame; //janela para exibir o jogo
-    private Canvas canvas; //tela para renderização
     private boolean running = false; //condição para o gameloop
-        
-    private GameGraphics gfx;
     private GameLogic logic;
-
     
     
     public GameLoop(){
-    	canvas = new Canvas();
-    	canvas.setIgnoreRepaint(true); //evita renderização passiva
-    	canvas.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE)); //mantem o tamanho da tela fixo
-        canvas.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        canvas.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        
         frame = new JFrame("2D Game Mgine");
         frame.setIgnoreRepaint(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //quando fechar, mata a jframe
         frame.setResizable(false);
         frame.setLayout(new BorderLayout()); //evita erro com a borda        
-        frame.add(canvas, BorderLayout.CENTER); //coloca o Canvas dentro desta janela
+        frame.add(GameSettings.getCanvas(), BorderLayout.CENTER); //coloca o Canvas dentro desta janela
         frame.pack(); //mantem as dimensões perto do PreferredSize
         frame.setLocationRelativeTo(null); //centraliza
         frame.setVisible(true);
         
-        gfx = new GameGraphics(canvas);
-        logic = new GameLogic(canvas, gfx);
+        logic = new GameLogic();
     }
     
     
@@ -69,7 +49,7 @@ public class GameLoop implements Runnable {
         long time_lastSecond = System.nanoTime(); //usado para exibir as informações a cada 1 segundo
         
         init(); //chama a titleScreen
-        this.canvas.requestFocus();
+        GameSettings.getCanvas().requestFocus();
         
         while (this.running){
             long time_now = System.nanoTime(); //coleta o tempo na entrada do WHILE
@@ -89,21 +69,20 @@ public class GameLoop implements Runnable {
             
             //diminui a performance de proposito (retirar depois dos testes)
             try {
-                Thread.sleep(2);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(GameLoop.class.getName()).log(Level.SEVERE, null, ex);
-            }
+				Thread.sleep(2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
             
             if (renderNow){
                 //limitador de frames
                 fps++;
-                gfx.render();
+                GameSettings.getGameGraphics().render();
             }
             
             if (System.nanoTime() - time_lastSecond >= 1000000000){
                 //passou 1 segundo
                 time_lastSecond += 1000000000; //soma mais 1 segundo na variavel
-                //System.out.println("UPS: " + ups + " FPS: " + fps);
                 this.frame.setTitle("UPS: " + ups + " FPS: " + fps);
                 ups = 0; //zera tudo pra usar no proximo segundo
                 fps = 0;

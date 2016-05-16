@@ -1,4 +1,4 @@
-package utopia.game.level;
+package utopia.game.planet;
 
 public class Colony {
 	private String leaderName;
