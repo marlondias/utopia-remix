@@ -23,7 +23,7 @@ public class TiledMap extends MSurface {
     private int WIDTH;
     private int HEIGHT;
     private boolean valid;
-    private final int BUG_LEVEL = 20;
+    private final int BUG_LEVEL = 35;
 
     private int visibleTilesX;
     private int visibleTilesY;
@@ -36,7 +36,7 @@ public class TiledMap extends MSurface {
     private boolean needUpdate = true;
 
 	
-	public TiledMap(MTileset tileset, int width, int height) {
+	public TiledMap(MTileset tileset, int width, int height, int[][] map) {
 		super(width, height);
 
 		//Carrega os dados do tileset (sem verificação de segurança)
@@ -50,16 +50,16 @@ public class TiledMap extends MSurface {
 		this.mapHeight = tileHeight * BUG_LEVEL;
 		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 		this.fullMap = gc.createCompatibleImage(mapWidth, mapHeight);
+
 		
 		//Constrói o mapa completo usando o tileset (e uma matriz de IDs)
 		Graphics2D g2 = fullMap.createGraphics();
-		for (int fakeY=0; fakeY<BUG_LEVEL; fakeY++){
-			for (int fakeX=0; fakeX<BUG_LEVEL; fakeX++){
+		for (int mapY=0; mapY<35; mapY++){
+			for (int mapX=0; mapX<35; mapX++){
 				//preenche o mapa com qualquer tile do tileset
-				byte tileID = (byte)(7 & System.currentTimeMillis());
-				int xPos = fakeX * tileWidth;
-				int yPos = fakeY * tileHeight;
-				g2.drawImage(this.tileset.getTile(tileID), xPos, yPos, (xPos + tileWidth), (yPos + tileHeight), 0, 0, tileWidth, tileHeight, null);
+				int xPos = mapX * tileWidth;
+				int yPos = mapY * tileHeight;
+				g2.drawImage(this.tileset.getTile(map[mapX][mapY]), xPos, yPos, (xPos + tileWidth), (yPos + tileHeight), 0, 0, tileWidth, tileHeight, null);
 			}
 		}
 		g2.dispose();

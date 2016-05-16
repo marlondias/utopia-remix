@@ -103,7 +103,7 @@ public class GameLoop implements Runnable {
             if (System.nanoTime() - time_lastSecond >= 1000000000){
                 //passou 1 segundo
                 time_lastSecond += 1000000000; //soma mais 1 segundo na variavel
-                System.out.println("UPS: " + ups + " FPS: " + fps);
+                //System.out.println("UPS: " + ups + " FPS: " + fps);
                 this.frame.setTitle("UPS: " + ups + " FPS: " + fps);
                 ups = 0; //zera tudo pra usar no proximo segundo
                 fps = 0;

@@ -23,8 +23,7 @@ public class GameGraphics {
 	
 	public GameGraphics(Canvas canvas){
 		this.targetCanvas = canvas;
-		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-		this.buffImg = gc.createCompatibleImage(canvas.getWidth(), canvas.getHeight());
+		this.buffImg = GameSettings.getDefaultGC().createCompatibleImage(GameSettings.getResolution().width, GameSettings.getResolution().height);
 	}
 	
 	

@@ -6,3 +6,11 @@
 - Renderizar botões interativos (piscam - botoes 1,2,3...9,0).
 
 - Usar o laurel com o planeta no centro como indicador de reputação. Quanto mais folhas, melhor (até envolver o globo).
+
+- Permitir desmatamento e transformação do terreno (mudar BlockType)
+
+- Implementar recursos Water e EnergyGem (radioativo)
+
+- Implementar esgotamento de recursos por excesso de extração
+
+- Implementar catástrofes

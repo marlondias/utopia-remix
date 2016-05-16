@@ -13,7 +13,7 @@ public class Colony {
 	//Lista de achievements (da colônia)
 	//Lista de eventos ocorridos
 
-	//Lista de tecnologias disponíveis 
+	//Lista de tecnologias disponíveis
 	//Lista de estruturas disponíveis
 	//Lista de condições ou emergências atuais (terrorismo, fome, falta de O2, blackout, acidente..)
 
@@ -25,5 +25,9 @@ public class Colony {
 	//private int gems;
 	//private int techGoods;
 	//private int weapons;
+	
+	public Colony(){
+		
+	}
 
 }

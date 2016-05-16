@@ -7,6 +7,7 @@ import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.msurfaces.StaticImage;
 import utopia.engine.graphics.msurfaces.TiledMap;
+import utopia.game.level.Planet;
 
 public class GS_GameField extends MGameScreen {
     private TiledMap terreno;
@@ -15,8 +16,10 @@ public class GS_GameField extends MGameScreen {
     
     public GS_GameField(GameGraphics gg, InputHandler kbd) {
     	super(gg, kbd);
+    	
+    	Planet lala = new Planet("Lalah");
 
-    	terreno = new TiledMap(new MTileset(48, "res/tileset48-utopia1.png"), 430, 430);
+    	terreno = new TiledMap(new MTileset(48, "res/tileset48-utopia1.png"), 430, 430, lala.getTerrainMap());
         terreno.setPosition(255, 48);
 
         moldura = new StaticImage(450, 450, "res/ui_elements/GUI-frame.png");
