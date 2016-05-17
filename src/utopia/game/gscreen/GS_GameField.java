@@ -8,21 +8,24 @@ import utopia.game.planet.Planet;
 
 public class GS_GameField extends MGameScreen {
     private TiledMap terreno;
+    private TiledMap resOverlay;
     private StaticImage moldura;
 
     
-    public GS_GameField() {
+    public GS_GameField(Planet planet) {
     	super();
     	
-    	Planet lala = new Planet("Lalah");
-
-    	terreno = new TiledMap(new MTileset(48, "res/tileset48-utopia1.png"), 430, 430, lala.getTerrainMap());
+    	terreno = new TiledMap(new MTileset(48, "res/tileset48-utopia1.png"), 430, 430, planet.getTerrainMap());
         terreno.setPosition(255, 48);
+
+    	resOverlay = new TiledMap(new MTileset(48, "res/tileset48-utopia1.png"), 430, 430, planet.getResourceMap());
+        resOverlay.setPosition(255, 48);
 
         moldura = new StaticImage(450, 450, "res/ui_elements/GUI-frame.png");
         moldura.setPosition(246, 39);
         
         super.surfaces.add(terreno);
+        super.surfaces.add(resOverlay);
         super.surfaces.add(moldura);
 	}
 

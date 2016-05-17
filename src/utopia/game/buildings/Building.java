@@ -8,7 +8,7 @@ public abstract class Building {
     private boolean finished; //Se já terminou a construção
     private boolean enabled; //Se está funcionando
     private boolean reparable; //Permite reparo se a estrutura tiver HP acima de 33% (alguns nunca permitem)
-    
+
     
     protected Building(BuildingType bt){
     	type = bt;
@@ -41,8 +41,6 @@ public abstract class Building {
     	}
     }
     
-    protected abstract void updateDuty(); //Coisas que só a classe derivada pode fazer
-    
     private void updateBuild(){
     	if (remainingDays > 0){
     		//Avança um dia na construção
@@ -58,11 +56,13 @@ public abstract class Building {
     		finished = true;
     		reparable = true;
     		enabled = false;
-            //Liberar construtores
-            //Mudar gráficos
+    		//Liberar construtores
+    		//Mudar gráficos
     	}
     }
-    
+
+    protected abstract void updateDuty(); //Coisas que só a classe derivada pode fazer
+
     public void update(){
     	//Atualização diária (tudo)
     	if (!finished){

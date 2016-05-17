@@ -4,6 +4,7 @@ import utopia.game.gscreen.GS_Background;
 import utopia.game.gscreen.GS_GameField;
 import utopia.game.gscreen.GS_Info;
 import utopia.game.gscreen.GS_MainUI;
+import utopia.game.planet.Planet;
 
 public class GameLogic {
 	private GameGraphics graphics = GameSettings.getGameGraphics();
@@ -12,6 +13,8 @@ public class GameLogic {
     private GS_GameField campo1;
     private GS_MainUI gui1;
     private GS_Info info;
+    
+    private Planet planeta = new Planet("Hempa");
 
 	
 	public GameLogic(){
@@ -29,6 +32,7 @@ public class GameLogic {
         graphics.addLayer(campo1);
         graphics.addLayer(gui1);
         graphics.addLayer(info);
+        
 	}
 	
     public void update(){

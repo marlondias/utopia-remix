@@ -2,7 +2,8 @@ package utopia.game.buildings;
 
 public enum BuildingType {
 	SOLAR_PANEL("Solar Panel", "Bla blabla energia limpa, legal!", 800, 7, 1, 1, 0, 30),
-	LIVING_QUARTERS("Living Quarters", "Pessoas moram aqui, legal!", 4000, 28, 8, 1, 100, 100);
+	LIVING_QUARTERS("Living Quarters", "Pessoas moram aqui, legal!", 4000, 28, 8, 1, 100, 100),
+	MOSS_CONVERTER("Moss Converter", "Nossa! Agora posso respirar gases liberados por musgo, legal!", 1000, 14, 5, 1, 50, 70);
 	
 	
 	private final String name; //Nome da estrutura

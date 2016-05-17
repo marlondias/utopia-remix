@@ -25,7 +25,20 @@ public class Planet {
 		}
 		return tiles;
 	}
-	
+
+	public int[][] getResourceMap(){
+		//Versão de teste
+		int[][] tiles = new int[35][35];
+		for(int y=0; y<35; y++){
+			for(int x=0; x<35; x++){
+				if (terrain[x][y].hasFuel()) tiles[x][y] = 1;
+				else if (terrain[x][y].hasOre()) tiles[x][y] = 2;
+				else tiles[x][y] = 0;
+			}
+		}
+		return tiles;
+	}
+
 	
 
 }

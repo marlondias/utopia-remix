@@ -1,5 +1,7 @@
 package utopia.game.planet;
 
+import utopia.game.buildings.BuildingType;
+
 //Informações individuais de cada tile do planeta
 public class Block {
 	private BlockType type; //Contém propriedades físicas e aparência
@@ -14,21 +16,19 @@ public class Block {
 		if (type.equals(BlockType.MOSS)) hasMoss = true;
 	}
 	
-	public boolean allowBuilding(int structure){
-		//Verifica se a estrutura informada pode ser colocada neste bloco
+	public boolean allowBuilding(BuildingType bt){
+		//Verifica se a estrutura do tipo BT pode ser colocada neste bloco (mas não inicia construção)
 		
 		if (hasStructure) return false; //Ja tem algo aqui
 		
 		if (hasMoss){
 			//Verifica se a estrutura é um MossConverter
-			//TBD
+			if (bt.equals(BuildingType.MOSS_CONVERTER)) return true;
 		}
 		
 		if (type.allowBuilding() == false) return false; //Tipo de terreno não permite
 		
-		//Deu certo!
-		hasStructure = true;
-		return true;
+		return true; //É possível construir (mas não constroi nada)
 	}
 	
 	public void setFuel(){
