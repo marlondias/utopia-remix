@@ -8,8 +8,8 @@ public class Colony {
 	//Instância do planeta (final)
 	//Instância da raça do player (final)
 	//Instância da raça alien (final)
-	private int population;
-	private int money;
+	private int population = 200;
+	private int money = 5000;
 	//Lista de achievements (da colônia)
 	//Lista de eventos ocorridos
 

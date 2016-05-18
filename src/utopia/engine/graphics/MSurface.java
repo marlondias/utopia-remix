@@ -1,5 +1,6 @@
 package utopia.engine.graphics;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -12,6 +13,7 @@ public abstract class MSurface {
 	private boolean visible = true; //Indica se a imagem será renderizada
 	private BufferedImage renderImg; //Guarda o conteúdo a ser renderizado
 	private Graphics2D drawingSurface; //Permite alterar o conteúdo
+	private AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC);
 
 	private float opacity = 1.0F; //Nível do canal alpha
 	private boolean fadingIn = false;
@@ -25,6 +27,7 @@ public abstract class MSurface {
 		if (height > 0) this.height = height;
 		this.renderImg = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
 		this.drawingSurface = renderImg.createGraphics();
+		this.drawingSurface.setComposite(ac);
 	}
 	
 	
@@ -44,9 +47,11 @@ public abstract class MSurface {
 	
 	protected void drawBuffImg(BufferedImage img, int x1, int y1, int x2, int y2){
 		//Desenha parte da imagem IMG
-		drawingSurface = renderImg.createGraphics();
+		if (drawingSurface == null){
+			drawingSurface = renderImg.createGraphics();
+			drawingSurface.setComposite(ac);
+		}
 		drawingSurface.drawImage(img, 0, 0, this.width, this.height, x1, y1, x2, y2, null);
-		drawingSurface.dispose();
 	}
 	protected void drawBuffImg(BufferedImage img){
 		//Desenha toda a imagem IMG
@@ -54,11 +59,11 @@ public abstract class MSurface {
 	}
 	
 	protected Graphics2D getDrawingSurf(){
-		if (drawingSurface == null)	drawingSurface = renderImg.createGraphics();
+		if (drawingSurface == null){
+			drawingSurface = renderImg.createGraphics();
+			drawingSurface.setComposite(ac);
+		}
 		return drawingSurface;
-	}
-	protected void releaseDrawingSurf(){
-		if (drawingSurface != null) drawingSurface.dispose();
 	}
 	
 	protected void changeSize(int w, int h){
@@ -68,6 +73,7 @@ public abstract class MSurface {
 		this.renderImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		if (drawingSurface != null) drawingSurface.dispose();
 		drawingSurface = renderImg.createGraphics();
+		drawingSurface.setComposite(ac);
 	}
 
 	public int getWidth(){

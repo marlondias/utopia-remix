@@ -1,219 +1,119 @@
 package utopia.engine.graphics.msurfaces;
 
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
-
 import utopia.engine.graphics.MSurface;
 import utopia.engine.graphics.MTileset;
 
 //Superfície 2d que controla e renderiza um mapa composto por tiles
 public class TiledMap extends MSurface {
     private BufferedImage fullMap; //Imagem do mapa completo
-    private int mapWidth; //Dimensões do mapa (em pixels)
-    private int mapHeight;
-
-	private MTileset tileset; //Permite apenas 1 tileset para o canvas
-	private int tileWidth; //Dimensões da tile (pq o dimension é bosta)
+	private MTileset tileset; //Permite apenas 1 tileset
+	private int tileWidth; //Dimensões da tile (px)
     private int tileHeight;
-    
-    
-
-    private int WIDTH;
-    private int HEIGHT;
-    private boolean valid;
-    private final int BUG_LEVEL = 35;
-
-    private int visibleTilesX;
-    private int visibleTilesY;
-    
-    private int xOffset; //Em pixels
-    private int yOffset;
-    private int xTileOffset; //Em tiles
-    private int yTileOffset;
-    
+    private int xSmallOffset; //Deslocamento (px)
+    private int ySmallOffset;
     private boolean needUpdate = true;
-
+    private boolean valid;
+    
 	
 	public TiledMap(MTileset tileset, int width, int height, int[][] map) {
 		super(width, height);
 
-		//Carrega os dados do tileset (sem verificação de segurança)
 		if (tileset.isValid()) this.tileset = tileset;
-		this.tileWidth = (int)tileset.getTileDimensions().getWidth();
-		this.tileHeight = (int)tileset.getTileDimensions().getHeight();
+		tileWidth = tileset.getTileWidth();
+		tileHeight = tileset.getTileHeight();
 		
+		fullMap = tileset.drawTiledMap(map, 35, 35); //Cria o mapa completo
 		
-		//Cria uma imagem do tamanho necessário
-		this.mapWidth = tileWidth * BUG_LEVEL;
-		this.mapHeight = tileHeight * BUG_LEVEL;
-		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-		this.fullMap = gc.createCompatibleImage(mapWidth, mapHeight);
-
-		
-		//Constrói o mapa completo usando o tileset (e uma matriz de IDs)
-		Graphics2D g2 = fullMap.createGraphics();
-		for (int mapY=0; mapY<35; mapY++){
-			for (int mapX=0; mapX<35; mapX++){
-				//preenche o mapa com qualquer tile do tileset
-				int xPos = mapX * tileWidth;
-				int yPos = mapY * tileHeight;
-				g2.drawImage(this.tileset.getTile(map[mapX][mapY]), xPos, yPos, (xPos + tileWidth), (yPos + tileHeight), 0, 0, tileWidth, tileHeight, null);
-			}
-		}
-		g2.dispose();
-		
-		
-        //Calcula quantas tiles completas cabem na tela, +1 para caber a tile extra ao mover
-        this.visibleTilesX = (width / tileWidth) + 1;
-        this.visibleTilesY = (height / tileHeight) + 1;
-        
-        //Se houver espaço para um tile incompleto, aumenta 1 nos tiles visiveis
-        if (width % tileWidth != 0) visibleTilesX++;
-        if (height % tileHeight != 0) visibleTilesY++;
-
-        this.WIDTH = width;
-        this.HEIGHT = height;
         this.valid = true;
-		
+        
         super.validate();
 	}
 
-	
-	//revisar tudo abaixo
-    
-    private void checkBorders(){
-        if (valid == false) return;
-        
-        //Verifica se ultrapassou as extremidades da tela
-        if (xTileOffset < 0){
-            xTileOffset = 0;
-            xOffset = 0; 
-        }
-        else {
-            int lastTileX = (WIDTH % tileWidth != 0) ? 1 : 0; //+1 se houver incompleto no final
-            lastTileX += BUG_LEVEL;
-            if ((xTileOffset + visibleTilesX) > lastTileX){
-                xTileOffset = lastTileX - visibleTilesX;
-                xOffset = tileWidth - (WIDTH % tileWidth);
-            }
-        }
-        
-        if (yTileOffset < 0){
-            yTileOffset = 0;
-            yOffset = 0; 
-        }
-        else {
-            int lastTileY = (HEIGHT % tileHeight != 0) ? 1 : 0; //+1 se houver incompleto no final
-            lastTileY += BUG_LEVEL;
-            if ((yTileOffset + visibleTilesY) > lastTileY){
-                yTileOffset = lastTileY - visibleTilesY;
-                yOffset = tileHeight - (HEIGHT % tileHeight);
-            }
-        }
-    }
-    
-    public void cameraCenterOn(int xPixel, int yPixel){
-        if (valid == false) return;
-        
-        xPixel -= WIDTH / 2; //desloca até que o ponto fique no centro do canvas
-        yPixel -= HEIGHT / 2;
-        
-        xTileOffset = xPixel / tileWidth; //atualiza os offsets
-        yTileOffset = yPixel / tileHeight;
-        xOffset = xPixel % tileWidth;
-        yOffset = yPixel % tileHeight;
-        
-        checkBorders();
-    }
-    
-    public void moveL(){
-        needUpdate = true;
-        if (xOffset > 0){
-            xOffset--; //não está no primeiro pixel, movimento normal
-        }
-        else {
-            if (xTileOffset > 0){
-                xOffset = tileWidth-1; //offset vai pro ultimo pixel
-                xTileOffset--; //vai um tile para a esquerda
-            }
-        }
+
+    private void verticalMovement(int units){
+    	//Calcula movimentos no eixo Y
+    	if (units == 0) return;
+    	needUpdate = true;
+		ySmallOffset += units;
+		if (ySmallOffset < 0) ySmallOffset = 0;
+		int mapLimit = fullMap.getHeight() - super.getHeight();
+		if (ySmallOffset > mapLimit) ySmallOffset = mapLimit;
     }
 
-    public void moveR(){
-        needUpdate = true;
-        int lastTile = (WIDTH % tileWidth != 0) ? 1 : 0; //+1 se houver incompleto no final
-        lastTile += BUG_LEVEL;        
-        if ((xTileOffset + visibleTilesX) < lastTile){
-            //não está no ultimo tile, movimento normal
-            if (xOffset < (tileWidth-1)){
-                xOffset++;
-            }
-            else{
-                xOffset = 0;
-                xTileOffset++;
-            }
-        }
-        else if ((xTileOffset + visibleTilesX) == lastTile){
-            //ultimo tile, movimento apenas nos pixels
-            int extraPixels = tileWidth - (WIDTH % tileWidth); //quantos pixels do ultimo tile estão ocultos
-            if (xOffset < extraPixels){
-                xOffset++;
-            }
-        }
+    private void horizontalMovement(int units){
+    	//Calcula movimentos no eixo X
+    	if (units == 0) return;
+    	needUpdate = true;
+		xSmallOffset += units;
+		if (xSmallOffset < 0) xSmallOffset = 0;
+		int mapLimit = fullMap.getWidth() - super.getWidth();
+		if (xSmallOffset > mapLimit) xSmallOffset = mapLimit;
     }
 
     public void moveU(){
         if (valid == false) return;
-        needUpdate = true;
-        if (yOffset > 0){
-            yOffset--; //não está no pixel zero, movimento normal
-        }
-        else {
-            if (yTileOffset > 0){
-                yOffset = tileHeight-1; //offset vai pro ultimo pixel
-                yTileOffset--; //vai um tile para cima
-            }
-        }
-    }
-
-    public void moveD(){
-        if (valid == false) return;
-        needUpdate = true;
-        int lastTile = (HEIGHT % tileHeight != 0) ? 1 : 0; //+1 se houver incompleto no final
-        lastTile += BUG_LEVEL;
-        if ((yTileOffset + visibleTilesY) < lastTile){
-            //não está no ultimo tile, movimento normal
-            if (yOffset < (tileHeight-1)){
-                yOffset++;
-            }
-            else{
-                yOffset = 0;
-                yTileOffset++;
-            }
-        }
-        else if ((yTileOffset + visibleTilesY) == lastTile){
-            //ultimo tile, movimento apenas nos pixels
-            int extraPixels = tileHeight - (HEIGHT % tileHeight); //quantos pixels do ultimo tile estão ocultos
-            if (yOffset < extraPixels){
-                yOffset++;
-            }
-        }
+        verticalMovement(-1);
     }
     
+    public void moveD(){
+        if (valid == false) return;
+        verticalMovement(1);
+    }
+    
+    public void moveL(){
+        if (valid == false) return;
+        horizontalMovement(-1);
+    }
+    
+    public void moveR(){
+        if (valid == false) return;
+        horizontalMovement(1);
+    }
 	
-	
+    private void centerAtTile(int x, int y){
+    	//Calcula o ponto que corresponde ao centro dessa tile
+		int xDest = (x * tileWidth) + (tileWidth / 2);
+		int yDest = (y * tileHeight) + (tileHeight / 2);
+		
+		//Verifica se esse ponto existe no mapa
+		if (xDest < 0 || yDest < 0 || xDest >= fullMap.getWidth() || yDest >= fullMap.getHeight()) return;
+		
+		//Centraliza a tela nesse ponto
+		xDest -= super.getWidth() / 2;
+		yDest -= super.getHeight() / 2;
+		
+		//Corrige limites
+		int mapLimit = fullMap.getWidth() - super.getWidth();
+		if (xDest > mapLimit) xDest = mapLimit;
+		mapLimit = fullMap.getHeight() - super.getHeight();
+		if (yDest > mapLimit) yDest = mapLimit;
+		if (xDest < 0) xDest = 0;
+		if (yDest < 0) yDest = 0;
+		
+		//Atualiza apenas se o destino for diferente da posiçao atual
+		if ((xDest != xSmallOffset) || (yDest != ySmallOffset)){
+			xSmallOffset = xDest;
+			ySmallOffset = yDest;
+			needUpdate = true;
+		}
+    }
+
+	public void goToTile(int x, int y){
+		//Implementar smooth scrolling
+		this.centerAtTile(x, y);
+	}
+    
 	@Override
 	public void updateGraphics() {
 		//Faz a atualização considerando os movimentos laterais do mapa
 		if (!needUpdate) return;
 
 		//Copia apenas a porção visível do FULLMAP
-		int xPos = xOffset + (xTileOffset * tileWidth);
-		int yPos = yOffset + (yTileOffset * tileHeight);
+		int xPos = xSmallOffset;
+		int yPos = ySmallOffset;
 		super.drawBuffImg(fullMap, xPos, yPos, xPos+super.getWidth(), yPos+super.getHeight());
-	
+		
         needUpdate = false; //As mudanças já ocorreram
 	}
 	

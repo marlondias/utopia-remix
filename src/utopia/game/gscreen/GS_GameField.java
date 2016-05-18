@@ -35,6 +35,14 @@ public class GS_GameField extends MGameScreen {
         if (super.input.down.isPressed()) terreno.moveD();
         if (super.input.left.isPressed()) terreno.moveL();
         if (super.input.right.isPressed()) terreno.moveR();
+
+    	if (super.input.up.isPressed()) resOverlay.moveU();
+        if (super.input.down.isPressed()) resOverlay.moveD();
+        if (super.input.left.isPressed()) resOverlay.moveL();
+        if (super.input.right.isPressed()) resOverlay.moveR();
+        if (super.input.num1.isPressed()) resOverlay.hide();
+        if (super.input.num2.isPressed()) resOverlay.show();
+
 	}
 
 }

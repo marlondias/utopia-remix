@@ -1,3 +1,4 @@
+- Separar tela de jogo em "perspectivas". Cada janela mostra um tipo de informação (estatísticas, terreno, ministros, TV).
 
 - Enum com as raças disponíveis
 - Cada raça terá atributos que afetam o desenvolvimento da colônia (taxa de reprodução, tempo de vida, resistência a doenças, submissão ao governo)

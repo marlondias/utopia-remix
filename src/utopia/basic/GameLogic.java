@@ -18,7 +18,7 @@ public class GameLogic {
 
 	
 	public GameLogic(){
-        campo1 = new GS_GameField();
+        campo1 = new GS_GameField(planeta);
         fundo = new GS_Background();
         gui1 = new GS_MainUI();
         info = new GS_Info ();
