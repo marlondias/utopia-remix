@@ -13,10 +13,11 @@ public class GameSettings {
 	private static final GraphicsEnvironment G_ENV = GraphicsEnvironment.getLocalGraphicsEnvironment(); //GE fixo
 	private static final Dimension RESOLUTION = new Dimension(800, 600); //Resolução da tela de jogo (pixels)
 	private static final GameGraphics GG = new GameGraphics(); //Faz toda a parte gráfica
-	
-    private static Canvas canvas; //tela para renderização
-    private static InputHandler INPUT; //Monitora o teclado
+
+	private static InputHandler KBD_INPUT; //Monitora o teclado
+    private static MouseInput M_INPUT; //Monitora "gestos" do mouse
     private static final int SCALE = 1; //multiplica o tamanho da tela
+    private static Canvas canvas; //tela para renderização
 
     
 	public static void initCanvas(){
@@ -30,7 +31,8 @@ public class GameSettings {
         canvas.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         canvas.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         
-        INPUT = new InputHandler(canvas);
+        KBD_INPUT = new InputHandler(canvas);
+        M_INPUT = new MouseInput(canvas);
 	}
     
 	public static Canvas getCanvas(){
@@ -38,7 +40,11 @@ public class GameSettings {
 	}
 
 	public static InputHandler getInputHandler(){
-		return INPUT;
+		return KBD_INPUT;
+	}
+	
+	public static MouseInput getMouseInput(){
+		return M_INPUT;
 	}
 	
 	public static GameGraphics getGameGraphics(){

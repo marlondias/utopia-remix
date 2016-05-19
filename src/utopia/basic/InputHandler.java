@@ -40,8 +40,8 @@ public class InputHandler implements KeyListener {
     public Key num5 = new Key();
     
     
-    public InputHandler(Canvas tela){
-        tela.addKeyListener(this); //coloca esta classe como manipulador de teclas
+    public InputHandler(Canvas cnv){
+    	cnv.addKeyListener(this);
     }
     
     

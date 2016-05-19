@@ -7,6 +7,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import utopia.basic.MouseInput.MouseActionType;
 import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.msurfaces.TextLine;
 
@@ -31,8 +32,6 @@ public class GS_Info extends MGameScreen{
 
 	
 	public GS_Info() {
-		super();
-		
 		labelPop = new TextLine("Population", labelFont);
 		labelCash = new TextLine("Money", labelFont);
 		labelQoL = new TextLine("Quality", labelFont);
@@ -65,9 +64,22 @@ public class GS_Info extends MGameScreen{
 		super.surfaces.add(valueQoL);
 		super.surfaces.add(valueDate);
 	}
+	
 
 	@Override
-	public void updateAll() {
+	protected void handleMouse(MouseActionType actionType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleKeyboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void updateLogic() {
 		valuePop.setString(nf.format(pop).toString());
 		valueCash.setString(nf.format(cash).toString());
 		valueQoL.setString(qol + "%");

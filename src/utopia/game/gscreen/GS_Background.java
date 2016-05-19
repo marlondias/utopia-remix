@@ -1,5 +1,6 @@
 package utopia.game.gscreen;
 
+import utopia.basic.MouseInput.MouseActionType;
 import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.msurfaces.StaticImage;
 
@@ -16,9 +17,21 @@ public class GS_Background extends MGameScreen {
 	}
 
 	@Override
-	public void updateAll() {
-		return;
+	protected void handleMouse(MouseActionType actionType) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	protected void handleKeyboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void updateLogic() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

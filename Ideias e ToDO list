@@ -1,12 +1,22 @@
-- Separar tela de jogo em "perspectivas". Cada janela mostra um tipo de informação (estatísticas, terreno, ministros, TV).
+=============================== TO DO ================================
 
-- Enum com as raças disponíveis
-- Cada raça terá atributos que afetam o desenvolvimento da colônia (taxa de reprodução, tempo de vida, resistência a doenças, submissão ao governo)
+- No campo de jogo, o cursor deve fazer snap no grid de tiles.
 
-- Renderizar botões interativos (piscam - botoes 1,2,3...9,0).
+- Renderizar botões interativos com efeitos de hover e ativação.
+
+- Implementar ring menu clicável e com giro pelo teclado (opcional).
+
+- No campo de jogo, o pressionamento longo deve abrir um "ring menu". O menu toma o foco do mouse, e fecha com click comum.
 
 
 
+=============================== IDEIAS ===============================
+
+- Fazer gamescreen ignorar Surfaces fora do espaço de tela.
+
+- Separar tela de jogo em "perspectivas". Cada janela mostra um tipo de informação (estatísticas, terreno, ministros, TV). Criar telas extras para modo multi-monitor
+
+- Enum com as raças disponíveis. Cada raça terá atributos que afetam o desenvolvimento da colônia (taxa de reprodução, tempo de vida, resistência a doenças, submissão ao governo)
 
 - Usar o laurel com o planeta no centro como indicador de reputação. Quanto mais folhas, melhor (até envolver o globo).
 
@@ -17,5 +27,3 @@
 - Implementar esgotamento de recursos por excesso de extração
 
 - Implementar catástrofes
-
-- Criar telas extras para modo multi-monitor (what??)

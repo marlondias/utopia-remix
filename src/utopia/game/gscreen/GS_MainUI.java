@@ -1,5 +1,6 @@
 package utopia.game.gscreen;
 
+import utopia.basic.MouseInput.MouseActionType;
 import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.msurfaces.StaticImage;
 
@@ -10,8 +11,6 @@ public class GS_MainUI extends MGameScreen {
 
     
     public GS_MainUI() {
-		super();
-
 		hud1 = new StaticImage(149, 150, "res/ui_elements/GUI-azul_status2.png");
         hud1.setPosition(44, 10);
 
@@ -26,9 +25,23 @@ public class GS_MainUI extends MGameScreen {
         super.surfaces.add(hud3);
 	}
     
+    
 	@Override
-	public void updateAll() {
-		return;
+	protected void handleMouse(MouseActionType actionType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleKeyboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void updateLogic() {
+		// TODO Auto-generated method stub
+		
 	}
     
 }
