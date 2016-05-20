@@ -1,5 +1,6 @@
 package utopia.engine.graphics.msurfaces;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import utopia.engine.graphics.MSurface;
 import utopia.engine.graphics.MTileset;
@@ -103,7 +104,27 @@ public class TiledMap extends MSurface {
 		//Implementar smooth scrolling
 		this.centerAtTile(x, y);
 	}
-    
+	    
+	public Point getSnap(int x, int y){
+		if (x < 0 || x >= super.getWidth() || y < 0 || y >= super.getHeight()) return null; //Não está dentro da superfície
+
+		int offsetX = -(xSmallOffset % tileWidth); //Deslocamentos em relação ao grid inicial
+		int offsetY = -(ySmallOffset % tileHeight);
+		
+		int snappedX = (((x-offsetX) / tileWidth) * tileWidth) + offsetX; //Novos valores do ponto obedecendo o grid inicial
+		int snappedY = (((y-offsetY) / tileHeight) * tileHeight) + offsetY;
+		
+		return new Point(snappedX, snappedY);
+	}
+	
+	public int getTileWidth(){
+		return tileWidth;
+	}
+
+	public int getTileHeight(){
+		return tileHeight;
+	}
+
 	@Override
 	public void updateGraphics() {
 		//Faz a atualização considerando os movimentos laterais do mapa

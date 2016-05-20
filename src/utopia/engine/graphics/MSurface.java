@@ -83,17 +83,23 @@ public abstract class MSurface {
 		return this.height;
 	}
 	
-	public void setPosition(int x, int y){
-		this.posX = x;
-		this.posY = y;
-	}
 	public int getX(){
 		return this.posX;
 	}
 	public int getY(){
 		return this.posY;
 	}
-	
+
+	public void setPosition(int x, int y){
+		this.posX = x;
+		this.posY = y;
+	}
+
+	public void setCenterAt(int x, int y){
+		this.posX = x - (width >> 1);
+		this.posY = y - (width >> 1);
+	}
+
 	public void fadeIn(int durationMS){
 		if (durationMS < 100) return; //Erro
 		if (opacity == 1.0F) return; //Não precisa

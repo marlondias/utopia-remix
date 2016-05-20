@@ -1,7 +1,5 @@
 =============================== TO DO ================================
 
-- No campo de jogo, o cursor deve fazer snap no grid de tiles.
-
 - Renderizar botões interativos com efeitos de hover e ativação.
 
 - Implementar ring menu clicável e com giro pelo teclado (opcional).
