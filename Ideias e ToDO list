@@ -1,8 +1,8 @@
 =============================== TO DO ================================
 
-- Renderizar botões interativos com efeitos de hover e ativação.
-
 - Implementar ring menu clicável e com giro pelo teclado (opcional).
+
+- Renderizar botões interativos com efeitos de hover e ativação.
 
 - No campo de jogo, o pressionamento longo deve abrir um "ring menu". O menu toma o foco do mouse, e fecha com click comum.
 

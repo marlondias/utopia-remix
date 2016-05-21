@@ -10,14 +10,14 @@ public abstract class MSurface {
 	private int posX = 0; //Posição relativa
 	private int posY = 0;
 	private boolean valid = false; //Indica se a superfície pode ser usada com segurança
-	private boolean visible = true; //Indica se a imagem será renderizada
+	private boolean visible = false; //Indica se a imagem será renderizada
 	private BufferedImage renderImg; //Guarda o conteúdo a ser renderizado
 	private Graphics2D drawingSurface; //Permite alterar o conteúdo
 	private AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC);
 
-	private float opacity = 1.0F; //Nível do canal alpha
-	private boolean fadingIn = false;
-	private boolean fadingOut = false;
+	private double transition = 1.0; //Nível do efeito
+	private boolean transitionIn = false;
+	private boolean transitionOut = false;
 	private long fadeStep; //Tempo para atualizar a opacidade (ms)
 	private long lastFadeStep; //Ultima atualização de opacidade (ms)
 
@@ -100,42 +100,48 @@ public abstract class MSurface {
 		this.posY = y - (width >> 1);
 	}
 
-	public void fadeIn(int durationMS){
+	public void transitionIn(int durationMS){
 		if (durationMS < 100) return; //Erro
-		if (opacity == 1.0F) return; //Não precisa
-		fadeStep = durationMS / (long)((1.0F - opacity) * 100);
-		fadingOut = false;
-		fadingIn = true;
+		if (transition == 1.0) return; //Não precisa
+		this.show();
+		fadeStep = durationMS / (long)((1.0 - transition) * 100);
+		transitionOut = false;
+		transitionIn = !transitionOut;
 	}
-	public void fadeOut(int durationMS){
+	
+	public void transitionOut(int durationMS){
 		if (durationMS < 100) return; //Erro
-		if (opacity == 0) return; //Não precisa
-		fadeStep = durationMS / (long)(opacity * 100);
-		fadingOut = true;
-		fadingIn = false;
+		if (transition == 0) return; //Não precisa
+		fadeStep = durationMS / (long)(transition * 100);
+		transitionOut = true;
+		transitionIn = !transitionOut;
 	}
 
-	protected void updateOpacity(){
+	private void updateTransition(){
 		if ((System.currentTimeMillis() - lastFadeStep) >= fadeStep){
 			//Atualiza a opacidade em 1%
-			if (fadingIn) opacity += 0.01F;
-			if (fadingOut) opacity -= 0.01F;
+			if (transitionIn) transition += 0.01;
+			if (transitionOut) transition -= 0.01;
 			lastFadeStep = System.currentTimeMillis();
 		}
-		//Se ultrapassar algum extremo, interrompe o efeito
-		if (opacity < 0){
-			opacity = 0;
-			fadingIn = false;
-			fadingOut = false;
-		}
-		if (opacity > 1.0F){
-			opacity = 1.0F;
-			fadingIn = false;
-			fadingOut = false;
-		}
 		
-		//Aplicar opacidade na imagem
-		//NAO APLICA ESSA CACETA!!
+		//Se ultrapassar algum extremo, finaliza o efeito
+		if (transition < 0){
+			transition = 0;
+			transitionIn = false;
+			transitionOut = false;
+			this.hide();
+		}
+		if (transition > 1.0){
+			transition = 1.0;
+			transitionIn = false;
+			transitionOut = false;
+		}
+	}
+	
+	protected double getTransitionLevel(){
+		//A subclasse faz o resto..
+		return transition;
 	}
 	
 	public abstract void updateGraphics(); //Atualiza posições e objetos antes de exibir
@@ -144,7 +150,11 @@ public abstract class MSurface {
 		if (!valid) return null;
 		updateGraphics();
 
-		//if (fadingIn || fadingOut) updateOpacity();
+		if (transitionIn || transitionOut){
+			System.out.println(transition);
+			drawingSurface.setComposite(ac.derive((float)transition));
+			updateTransition();
+		}
 		if (!visible) return null;
 
 		return this.renderImg;

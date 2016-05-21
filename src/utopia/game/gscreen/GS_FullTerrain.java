@@ -2,15 +2,13 @@ package utopia.game.gscreen;
 
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.Rectangle;
-
 import utopia.basic.GameSettings;
 import utopia.basic.MouseInput.MouseActionType;
 import utopia.engine.graphics.MAnimationSheet;
 import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.msurfaces.AnimatedImage;
-import utopia.engine.graphics.msurfaces.StaticImage;
+import utopia.engine.graphics.msurfaces.RingMenu;
 import utopia.engine.graphics.msurfaces.TextLine;
 import utopia.engine.graphics.msurfaces.TiledMap;
 import utopia.game.planet.Planet;
@@ -20,6 +18,7 @@ public class GS_FullTerrain extends MGameScreen {
     private TiledMap resourcesLayer;
     private TextLine planetName;
     private AnimatedImage pointer;
+    private RingMenu ring;
 
     private Point cursorPos = new Point();
     private Point dragPos1 = new Point();
@@ -28,6 +27,9 @@ public class GS_FullTerrain extends MGameScreen {
     private boolean clicked = false;
     private int halfTileW, halfTileH;
     
+    private double i = 0.0;
+    private boolean showResMap = false;
+    private boolean showRing = false;
     
     
     
@@ -37,6 +39,7 @@ public class GS_FullTerrain extends MGameScreen {
 		
     	terrain = new TiledMap(new MTileset(48, "res/tilesets/tileset48-terrain.png"), maxW, maxH, p.getTerrainMap());
     	terrain.setPosition(0, 0);
+    	terrain.show();
     	
     	halfTileW = terrain.getTileWidth() >> 1;
     	halfTileH = terrain.getTileHeight() >> 1;
@@ -48,11 +51,17 @@ public class GS_FullTerrain extends MGameScreen {
     	int nameX = (maxW / 2) - (planetName.getWidth() / 2);
     	int nameY = maxH - planetName.getHeight() - 24;
     	planetName.setPosition(nameX, nameY);
+    	planetName.show();
     	
     	pointer = new AnimatedImage(34, 34, new MAnimationSheet(34, 34, 10, 1000, "res/cursors/anim_drag-marker.png"));
     	
+    	ring = new RingMenu(8, 100);
+    	ring.setPosition(100, 100);
+    	ring.transitionOut(200);
+    	
     	super.surfaces.add(terrain);
     	super.surfaces.add(resourcesLayer);
+    	super.surfaces.add(ring);
     	super.surfaces.add(pointer);
     	super.surfaces.add(planetName);
 	}
@@ -110,6 +119,17 @@ public class GS_FullTerrain extends MGameScreen {
     		resourcesLayer.moveR();
         	pointer.hide();
     	}
+    	
+    	if (super.input.num1.isPressed()){
+    		showResMap = !showResMap;
+    		if (showResMap) resourcesLayer.show();
+    		else resourcesLayer.hide();
+    	}
+    	if (super.input.num2.isPressed()){
+    		showRing = !showRing;
+    		if (showRing) ring.transitionIn(200);
+    		else ring.transitionOut(200);
+    	}
 		
 	}
 
@@ -125,6 +145,11 @@ public class GS_FullTerrain extends MGameScreen {
 			if ((dragPos1.x < dragPos2.x) && (dragPos1.y < dragPos2.y)) quadrante = 4;
 			
 			//Criar retangulo de seleção entre os pontos..
+		}
+		
+		if (clicked){
+			System.out.println("Click!");
+			clicked = false;
 		}
 		
 		pointer.setCenterAt(cursorPos.x + halfTileW, cursorPos.y + halfTileH);
