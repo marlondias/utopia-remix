@@ -1,4 +1,4 @@
-package utopia.game.gscreen;
+package utopia.engine.graphics.gscreen;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,8 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import utopia.basic.MouseInput.MouseActionType;
-import utopia.engine.graphics.MGameScreen;
-import utopia.engine.graphics.msurfaces.TextLine;
+import utopia.engine.graphics.surfaces.TextLine;
 
 public class GS_Info extends MGameScreen{
 	private Font labelFont = new Font("SansSerif", Font.PLAIN, 11);

@@ -1,8 +1,7 @@
-package utopia.game.gscreen;
+package utopia.engine.graphics.gscreen;
 
 import utopia.basic.MouseInput.MouseActionType;
-import utopia.engine.graphics.MGameScreen;
-import utopia.engine.graphics.msurfaces.StaticImage;
+import utopia.engine.graphics.surfaces.StaticImage;
 
 public class GS_MainUI extends MGameScreen {
 	private StaticImage hud1;

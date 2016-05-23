@@ -1,10 +1,8 @@
-package utopia.engine.graphics.msurfaces;
+package utopia.engine.graphics.surfaces;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
-
-import utopia.engine.graphics.MSurface;
 
 public class TextLine extends MSurface {
 	private int lineWidth; //Largura do texto (pixels)

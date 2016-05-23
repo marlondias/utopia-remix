@@ -1,9 +1,8 @@
-package utopia.engine.graphics.msurfaces;
+package utopia.engine.graphics.surfaces;
 
 import java.awt.image.BufferedImage;
 
 import utopia.engine.graphics.MAnimationSheet;
-import utopia.engine.graphics.MSurface;
 
 public class AnimatedImage extends MSurface {
 	private MAnimationSheet animSheet;
@@ -19,16 +18,14 @@ public class AnimatedImage extends MSurface {
 	}
 	
 	
-	@Override
 	public void show(){
-		super.show();
+		super.transitionIn(200);
 		animSheet.play();
 	}
 
-	@Override
 	public void hide(){
 		animSheet.pause();
-		super.hide();
+		super.transitionOut(200);
 	}
 	
 	@Override

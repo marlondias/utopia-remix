@@ -1,10 +1,9 @@
-package utopia.game.gscreen;
+package utopia.engine.graphics.gscreen;
 
 import utopia.basic.MouseInput.MouseActionType;
-import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.MTileset;
-import utopia.engine.graphics.msurfaces.StaticImage;
-import utopia.engine.graphics.msurfaces.TiledMap;
+import utopia.engine.graphics.surfaces.StaticImage;
+import utopia.engine.graphics.surfaces.TiledMap;
 import utopia.game.planet.Planet;
 
 public class GS_GameField extends MGameScreen {
@@ -54,9 +53,6 @@ public class GS_GameField extends MGameScreen {
         	resOverlay.moveR();
         }
         
-        if (super.input.num1.isPressed()) resOverlay.hide();
-        if (super.input.num2.isPressed()) resOverlay.show();
-		
 	}
 
 	@Override

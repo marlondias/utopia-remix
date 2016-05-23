@@ -1,10 +1,11 @@
 package utopia.basic;
 
-import utopia.game.gscreen.GS_Background;
-import utopia.game.gscreen.GS_FullTerrain;
-import utopia.game.gscreen.GS_GameField;
-import utopia.game.gscreen.GS_Info;
-import utopia.game.gscreen.GS_MainUI;
+import utopia.engine.graphics.gscreen.GS_Background;
+import utopia.engine.graphics.gscreen.GS_FullTerrain;
+import utopia.engine.graphics.gscreen.GS_GameField;
+import utopia.engine.graphics.gscreen.GS_Info;
+import utopia.engine.graphics.gscreen.GS_MainUI;
+import utopia.engine.graphics.gscreen.GS_RingMenus;
 import utopia.game.planet.Planet;
 
 public class GameLogic {
@@ -16,6 +17,7 @@ public class GameLogic {
     private GS_FullTerrain campo2;
     private GS_MainUI gui1;
     private GS_Info info;
+    private GS_RingMenus rings;
     
     private Planet planeta = new Planet("Hempa");
 
@@ -26,14 +28,17 @@ public class GameLogic {
         fundo = new GS_Background();
         gui1 = new GS_MainUI();
         info = new GS_Info ();
+        rings = new GS_RingMenus();
 
         campo2.show();
         fundo.show();
         gui1.show();
         info.show();
+        rings.show();
         
         //graphics.addLayer(fundo);
         graphics.addLayer(campo2);
+        graphics.addLayer(rings);
         //graphics.addLayer(gui1);
         //graphics.addLayer(info);
 
@@ -42,7 +47,8 @@ public class GameLogic {
 	
     public void update(){
         //Lógica e matemática
-    	campo2.updateAll();
+    	//campo2.updateAll();
+    	rings.updateAll();
     	//mi.getAction();
     }
 	

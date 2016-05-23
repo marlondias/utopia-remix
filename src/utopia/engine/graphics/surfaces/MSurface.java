@@ -1,4 +1,4 @@
-package utopia.engine.graphics;
+package utopia.engine.graphics.surfaces;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -14,7 +14,7 @@ public abstract class MSurface {
 	private BufferedImage renderImg; //Guarda o conteúdo a ser renderizado
 	private Graphics2D drawingSurface; //Permite alterar o conteúdo
 	private AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC);
-
+	
 	private double transition = 1.0; //Nível do efeito
 	private boolean transitionIn = false;
 	private boolean transitionOut = false;
@@ -31,90 +31,12 @@ public abstract class MSurface {
 	}
 	
 	
-	protected void validate(){
-		this.valid = true;
-	}
-	protected void invalidate(){
-		this.valid = false;
-	}
-
-	public void show(){
-		this.visible = true;
-	}
-	public void hide(){
-		this.visible = false;
+	private void show(){
+		visible = true;
 	}
 	
-	protected void drawBuffImg(BufferedImage img, int x1, int y1, int x2, int y2){
-		//Desenha parte da imagem IMG
-		if (drawingSurface == null){
-			drawingSurface = renderImg.createGraphics();
-			drawingSurface.setComposite(ac);
-		}
-		drawingSurface.drawImage(img, 0, 0, this.width, this.height, x1, y1, x2, y2, null);
-	}
-	protected void drawBuffImg(BufferedImage img){
-		//Desenha toda a imagem IMG
-		this.drawBuffImg(img, 0, 0, img.getWidth(), img.getHeight());
-	}
-	
-	protected Graphics2D getDrawingSurf(){
-		if (drawingSurface == null){
-			drawingSurface = renderImg.createGraphics();
-			drawingSurface.setComposite(ac);
-		}
-		return drawingSurface;
-	}
-	
-	protected void changeSize(int w, int h){
-		if (w<1 || h<1) return; //Tamanho inválido
-		this.width = w;
-		this.height = h;
-		this.renderImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		if (drawingSurface != null) drawingSurface.dispose();
-		drawingSurface = renderImg.createGraphics();
-		drawingSurface.setComposite(ac);
-	}
-
-	public int getWidth(){
-		return this.width;
-	}
-	public int getHeight(){
-		return this.height;
-	}
-	
-	public int getX(){
-		return this.posX;
-	}
-	public int getY(){
-		return this.posY;
-	}
-
-	public void setPosition(int x, int y){
-		this.posX = x;
-		this.posY = y;
-	}
-
-	public void setCenterAt(int x, int y){
-		this.posX = x - (width >> 1);
-		this.posY = y - (width >> 1);
-	}
-
-	public void transitionIn(int durationMS){
-		if (durationMS < 100) return; //Erro
-		if (transition == 1.0) return; //Não precisa
-		this.show();
-		fadeStep = durationMS / (long)((1.0 - transition) * 100);
-		transitionOut = false;
-		transitionIn = !transitionOut;
-	}
-	
-	public void transitionOut(int durationMS){
-		if (durationMS < 100) return; //Erro
-		if (transition == 0) return; //Não precisa
-		fadeStep = durationMS / (long)(transition * 100);
-		transitionOut = true;
-		transitionIn = !transitionOut;
+	private void hide(){
+		visible = false;
 	}
 
 	private void updateTransition(){
@@ -138,11 +60,106 @@ public abstract class MSurface {
 			transitionOut = false;
 		}
 	}
-	
+
 	protected double getTransitionLevel(){
-		//A subclasse faz o resto..
+		//A subclasse faz o resto
 		return transition;
 	}
+	
+	protected void validate(){
+		valid = true;
+	}
+	
+	protected void invalidate(){
+		valid = false;
+	}
+
+	protected void changeSize(int w, int h){
+		if (w<1 || h<1) return; //Tamanho inválido
+		width = w;
+		height = h;
+		renderImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		if (drawingSurface != null) drawingSurface.dispose();
+		drawingSurface = renderImg.createGraphics();
+		drawingSurface.setComposite(ac);
+	}
+
+	protected Graphics2D getDrawingSurf(){
+		if (drawingSurface == null){
+			drawingSurface = renderImg.createGraphics();
+			drawingSurface.setComposite(ac);
+		}
+		return drawingSurface;
+	}
+
+
+	protected void drawBuffImg(BufferedImage img, int x1, int y1, int x2, int y2){
+		//Desenha parte da imagem IMG
+		if (drawingSurface == null){
+			drawingSurface = renderImg.createGraphics();
+			drawingSurface.setComposite(ac);
+		}
+		drawingSurface.drawImage(img, 0, 0, this.width, this.height, x1, y1, x2, y2, null);
+	}
+	protected void drawBuffImg(BufferedImage img){
+		//Desenha toda a imagem IMG
+		this.drawBuffImg(img, 0, 0, img.getWidth(), img.getHeight());
+	}
+	
+	
+
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
+	}
+	
+	public int getX(){
+		return posX;
+	}
+	
+	public int getY(){
+		return posY;
+	}
+
+	public void setPosition(int x, int y){
+		posX = x;
+		posY = y;
+	}
+
+	public void setCenterAt(int x, int y){
+		posX = x - (width >> 1);
+		posY = y - (width >> 1);
+	}
+	
+	public boolean isInside(int x, int y){
+		//Verifica se o ponto informado está dentro da superfície
+		return ((x >= posX) && (x < posX+width) && (y >= posY) && (y < posY + height));
+	}
+
+	public void transitionIn(int durationMS){
+		if (durationMS < 100) return; //Erro
+		if (transition == 1.0) return; //Não precisa
+		this.show();
+		fadeStep = durationMS / (long)((1.0 - transition) * 100);
+		transitionOut = false;
+		transitionIn = !transitionOut;
+	}
+	
+	public void transitionOut(int durationMS){
+		if (durationMS < 100) return; //Erro
+		if (transition == 0) return; //Não precisa
+		fadeStep = durationMS / (long)(transition * 100);
+		transitionOut = true;
+		transitionIn = !transitionOut;
+	}
+
+	public boolean isVisible(){
+		return visible;
+	}
+
 	
 	public abstract void updateGraphics(); //Atualiza posições e objetos antes de exibir
 	

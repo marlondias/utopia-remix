@@ -1,4 +1,4 @@
-package utopia.engine.graphics;
+package utopia.engine.graphics.gscreen;
 
 import java.util.LinkedList;
 
@@ -7,6 +7,7 @@ import utopia.basic.GameSettings;
 import utopia.basic.InputHandler;
 import utopia.basic.MouseInput;
 import utopia.basic.MouseInput.MouseActionType;
+import utopia.engine.graphics.surfaces.MSurface;
 
 // Guarda e organiza todos os MSurfaces e suas posições
 public abstract class MGameScreen {

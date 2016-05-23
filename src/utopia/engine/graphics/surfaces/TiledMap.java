@@ -1,8 +1,8 @@
-package utopia.engine.graphics.msurfaces;
+package utopia.engine.graphics.surfaces;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import utopia.engine.graphics.MSurface;
+
 import utopia.engine.graphics.MTileset;
 
 //Superfície 2d que controla e renderiza um mapa composto por tiles

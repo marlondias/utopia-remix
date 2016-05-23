@@ -1,16 +1,15 @@
-package utopia.game.gscreen;
+package utopia.engine.graphics.gscreen;
 
 import java.awt.Font;
 import java.awt.Point;
 import utopia.basic.GameSettings;
 import utopia.basic.MouseInput.MouseActionType;
 import utopia.engine.graphics.MAnimationSheet;
-import utopia.engine.graphics.MGameScreen;
 import utopia.engine.graphics.MTileset;
-import utopia.engine.graphics.msurfaces.AnimatedImage;
-import utopia.engine.graphics.msurfaces.RingMenu;
-import utopia.engine.graphics.msurfaces.TextLine;
-import utopia.engine.graphics.msurfaces.TiledMap;
+import utopia.engine.graphics.surfaces.AnimatedImage;
+import utopia.engine.graphics.surfaces.RingMenu;
+import utopia.engine.graphics.surfaces.TextLine;
+import utopia.engine.graphics.surfaces.TiledMap;
 import utopia.game.planet.Planet;
 
 public class GS_FullTerrain extends MGameScreen {
@@ -18,7 +17,6 @@ public class GS_FullTerrain extends MGameScreen {
     private TiledMap resourcesLayer;
     private TextLine planetName;
     private AnimatedImage pointer;
-    private RingMenu ring;
 
     private Point cursorPos = new Point();
     private Point dragPos1 = new Point();
@@ -27,11 +25,6 @@ public class GS_FullTerrain extends MGameScreen {
     private boolean clicked = false;
     private int halfTileW, halfTileH;
     
-    private double i = 0.0;
-    private boolean showResMap = false;
-    private boolean showRing = false;
-    
-    
     
     public GS_FullTerrain(Planet p) {
 		int maxW = GameSettings.getResolution().width;
@@ -39,7 +32,7 @@ public class GS_FullTerrain extends MGameScreen {
 		
     	terrain = new TiledMap(new MTileset(48, "res/tilesets/tileset48-terrain.png"), maxW, maxH, p.getTerrainMap());
     	terrain.setPosition(0, 0);
-    	terrain.show();
+    	terrain.transitionIn(200);
     	
     	halfTileW = terrain.getTileWidth() >> 1;
     	halfTileH = terrain.getTileHeight() >> 1;
@@ -51,17 +44,12 @@ public class GS_FullTerrain extends MGameScreen {
     	int nameX = (maxW / 2) - (planetName.getWidth() / 2);
     	int nameY = maxH - planetName.getHeight() - 24;
     	planetName.setPosition(nameX, nameY);
-    	planetName.show();
+    	planetName.transitionIn(200);
     	
     	pointer = new AnimatedImage(34, 34, new MAnimationSheet(34, 34, 10, 1000, "res/cursors/anim_drag-marker.png"));
     	
-    	ring = new RingMenu(8, 100);
-    	ring.setPosition(100, 100);
-    	ring.transitionOut(200);
-    	
     	super.surfaces.add(terrain);
     	super.surfaces.add(resourcesLayer);
-    	super.surfaces.add(ring);
     	super.surfaces.add(pointer);
     	super.surfaces.add(planetName);
 	}
@@ -120,17 +108,6 @@ public class GS_FullTerrain extends MGameScreen {
         	pointer.hide();
     	}
     	
-    	if (super.input.num1.isPressed()){
-    		showResMap = !showResMap;
-    		if (showResMap) resourcesLayer.show();
-    		else resourcesLayer.hide();
-    	}
-    	if (super.input.num2.isPressed()){
-    		showRing = !showRing;
-    		if (showRing) ring.transitionIn(200);
-    		else ring.transitionOut(200);
-    	}
-		
 	}
 
 	@Override

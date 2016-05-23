@@ -7,8 +7,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
-import utopia.engine.graphics.MGameScreen;
-import utopia.engine.graphics.MSurface;
+import utopia.engine.graphics.gscreen.MGameScreen;
+import utopia.engine.graphics.surfaces.MSurface;
 
 public class GameGraphics {
 	private final Canvas targetCanvas;

@@ -1,11 +1,9 @@
-package utopia.engine.graphics.msurfaces;
+package utopia.engine.graphics.surfaces;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
-import utopia.engine.graphics.MSurface;
 
 public class StaticImage extends MSurface {
 
