@@ -7,6 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+import utopia.basic.helpers.GameSettings;
 import utopia.engine.graphics.gscreen.MGameScreen;
 import utopia.engine.graphics.surfaces.MSurface;
 
@@ -16,7 +17,7 @@ public class GameGraphics {
 	private BufferedImage buffImg;
 	private Graphics graphics;
     private Graphics2D g2d;
-	private LinkedList<MGameScreen> layers = new LinkedList<MGameScreen>();
+	private LinkedList<MGameScreen> layers;
 
 	
 	public GameGraphics(){
@@ -40,6 +41,9 @@ public class GameGraphics {
 
         try {
             g2d = buffImg.createGraphics();
+            
+            
+            layers = GameStateManager.getGameScreens();
             
             //Para cada camada, desenha o conteúdo das subcamadas (se possível)
             BufferedImage tmp;

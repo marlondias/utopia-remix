@@ -1,10 +1,14 @@
-package utopia.basic;
+package utopia.basic.helpers;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+
+import utopia.basic.GameGraphics;
+import utopia.basic.controls.InputHandler;
+import utopia.basic.controls.MouseInput;
 
 //Guarda todas as preferências, configurações e OBJETOS COMUNS (melhor ideia ever!)
 public class GameSettings {

@@ -1,4 +1,4 @@
-package utopia.basic;
+package utopia.basic.helpers;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -13,7 +13,6 @@ public class Assets {
 	public static final Color ICON_NORMAL_COLOR = Color.decode("#5a5a5a");
 	public static final Color ICON_HIGHLIGHT_COLOR = Color.decode("#2b2b2b");
 	public static final Color ICON_SELECTED_COLOR = Color.decode("#FF8B43");
-	
 	
 	
 	/**

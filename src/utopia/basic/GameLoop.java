@@ -1,6 +1,9 @@
 package utopia.basic;
 
 import javax.swing.JFrame;
+
+import utopia.basic.helpers.GameSettings;
+
 import java.awt.BorderLayout;
 
 public class GameLoop implements Runnable {

@@ -3,10 +3,10 @@ package utopia.engine.graphics.gscreen;
 import java.util.LinkedList;
 
 import utopia.basic.GameGraphics;
-import utopia.basic.GameSettings;
-import utopia.basic.InputHandler;
-import utopia.basic.MouseInput;
-import utopia.basic.MouseInput.MouseActionType;
+import utopia.basic.controls.InputHandler;
+import utopia.basic.controls.MouseInput;
+import utopia.basic.controls.MouseInput.MouseActionType;
+import utopia.basic.helpers.GameSettings;
 import utopia.engine.graphics.surfaces.MSurface;
 
 // Guarda e organiza todos os MSurfaces e suas posições
@@ -16,7 +16,7 @@ public abstract class MGameScreen {
 	protected MouseInput mouse = GameSettings.getMouseInput();
 	
 	protected LinkedList<MSurface> surfaces = new LinkedList<MSurface>();
-	private boolean onScreen; //Se está visível e pode receber interação
+	private boolean onScreen = true; //Se está visível e pode receber interação
 	private boolean hasInputFocus = true;
 	
 	

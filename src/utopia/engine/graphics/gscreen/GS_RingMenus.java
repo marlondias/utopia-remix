@@ -2,7 +2,7 @@ package utopia.engine.graphics.gscreen;
 
 import java.awt.Point;
 
-import utopia.basic.MouseInput.MouseActionType;
+import utopia.basic.controls.MouseInput.MouseActionType;
 import utopia.engine.graphics.surfaces.RingMenu;
 import utopia.game.planet.Block;
 

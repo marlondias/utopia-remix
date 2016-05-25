@@ -2,8 +2,9 @@ package utopia.engine.graphics.gscreen;
 
 import java.awt.Font;
 import java.awt.Point;
-import utopia.basic.GameSettings;
-import utopia.basic.MouseInput.MouseActionType;
+
+import utopia.basic.controls.MouseInput.MouseActionType;
+import utopia.basic.helpers.GameSettings;
 import utopia.engine.graphics.MAnimationSheet;
 import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.surfaces.AnimatedImage;

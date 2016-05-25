@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import utopia.basic.Assets;
+import utopia.basic.helpers.Assets;
 
 //Uma imagem simples (implementar efeitos e tals)
 public class StaticImage extends MSurface {

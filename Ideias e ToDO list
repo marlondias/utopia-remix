@@ -1,7 +1,5 @@
 =============================== TO DO ================================
 
-- Fazer renderer ignorar Surfaces fora do espaço de tela.
-
 - Implementar mudança de foco entre MGameScreens.
 
 - No campo de jogo, o pressionamento longo deve abrir um "ring menu". O menu toma o foco do mouse, e fecha com click comum.
@@ -10,15 +8,12 @@
 
 - Implementar reutilização de animações e imagens. Use uma lista de Point, rederize por ordem de Y.
 
+- Renderizar botões interativos com efeitos de hover e ativação.
 
 =============================== IDEIAS ===============================
 
-- Máscara do Anonymous aparece no meio da tela e tudo fica bugado por alguns segundos, indicando que houve um cyber ataque na colônia. Quando tudo volta ao normal você pode ver o estrago (moderado).
 
 - Vai ter Mecha!! Ele pode ser controlado por um humano ou AI, mas em caso de AI existe a chance de ele se tornar "mau".
-
-- Renderizar botões interativos com efeitos de hover e ativação.
-
 
 - Separar tela de jogo em "perspectivas". Cada janela mostra um tipo de informação (estatísticas, terreno, ministros, TV). Criar telas extras para modo multi-monitor
 
@@ -31,5 +26,7 @@
 - Implementar recursos Water e EnergyGem (radioativo)
 
 - Implementar esgotamento de recursos por excesso de extração
+
+- Máscara do Anonymous aparece no meio da tela e tudo fica bugado por alguns segundos, indicando que houve um cyber ataque na colônia. Quando tudo volta ao normal você pode ver o estrago (moderado).
 
 - Implementar catástrofes

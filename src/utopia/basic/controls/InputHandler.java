@@ -1,4 +1,4 @@
-package utopia.basic;
+package utopia.basic.controls;
 
 import java.awt.Canvas;
 import java.awt.event.KeyEvent;

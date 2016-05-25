@@ -7,7 +7,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import utopia.basic.MouseInput.MouseActionType;
+import utopia.basic.controls.MouseInput.MouseActionType;
 import utopia.engine.graphics.surfaces.TextLine;
 
 public class GS_Info extends MGameScreen{

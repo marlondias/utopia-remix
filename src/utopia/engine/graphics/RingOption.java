@@ -6,7 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
-import utopia.basic.Assets;
+import utopia.basic.helpers.Assets;
 import utopia.game.buildings.Building;
 
 //Icones possíveis em um RingMenu

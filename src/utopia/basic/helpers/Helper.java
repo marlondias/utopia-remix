@@ -1,4 +1,4 @@
-package utopia.basic;
+package utopia.basic.helpers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

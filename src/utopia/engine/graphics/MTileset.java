@@ -4,7 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import utopia.basic.Helper;
+import utopia.basic.helpers.Helper;
 
 //Minha versão da classe SpriteSheet, mais segura e flexivel
 public class MTileset {
