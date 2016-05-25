@@ -99,6 +99,9 @@ public abstract class Building {
     	return (reparable) ? repairPrice : -1;
     }
     
+    public BuildingType getType(){
+    	return type;
+    }
 
 
     

@@ -23,19 +23,19 @@ public enum BlockType {
 	}
 	
 	public int getTileID(){
-		return this.tilesetID;
+		return tilesetID;
 	}
 	
 	public boolean allowBuilding(){
-		return this.canBuild;
+		return canBuild;
 	}
 	
 	public boolean allowMovement(){
-		return this.canWalk;
+		return canWalk;
 	}
 	
 	public boolean allowMovementHover(){
-		return this.canHover;
+		return canHover;
 	}
 
 }

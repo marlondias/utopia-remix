@@ -1,20 +1,17 @@
 package utopia.basic;
 
-import utopia.game.planet.Planet;
+import utopia.game.planet.Colony;
 
 public class GameLogic {
-    private Planet planeta = new Planet("Hempa");
-
 	
 	public GameLogic(){
-		GameStateManager.setPlanet(planeta);
+		GameStateManager.setColony(new Colony("Tesla Hempa I", "The Guy"));
         GameStateManager.setGameState(GameState.TITLE_SCREEN);
 	}
 	
     public void update(){
     	GameStateManager.updateGameScreens();
-    	
-    	//Atualizar planeta e tal..
+    	GameStateManager.updateColony();
     }
 	
 }
