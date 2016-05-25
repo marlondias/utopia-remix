@@ -6,6 +6,7 @@ import utopia.engine.graphics.MAnimationSheet;
 
 public class AnimatedImage extends MSurface {
 	private MAnimationSheet animSheet;
+	private boolean isLoop = true;
 
 	
 	public AnimatedImage(int width, int height, MAnimationSheet anim) {
@@ -13,25 +14,31 @@ public class AnimatedImage extends MSurface {
 		if (anim == null) return;
 		this.animSheet = anim;
 		super.validate();
-
-		this.animSheet.play(); //mudar?
 	}
+
 	
-	
-	public void show(){
-		super.transitionIn(200);
+	public void setLoop(boolean value){
+		isLoop = value;
+	}
+
+	@Override
+	public void show(int duration){
+		if (duration < 0) duration = 0;
+		super.show(duration);
 		animSheet.play();
 	}
 
-	public void hide(){
+	@Override
+	public void hide(int duration){
+		if (duration < 0) duration = 0;
 		animSheet.pause();
-		super.transitionOut(200);
+		super.hide(duration);
 	}
 	
 	@Override
 	public void updateGraphics() {
 		BufferedImage img = animSheet.getFrame();
-		super.drawBuffImg(img);
+		if (img != null) getDrawingSurf().drawImage(img, 0, 0, img.getWidth(), img.getHeight(), null);
 	}
 
 }

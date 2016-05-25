@@ -5,32 +5,44 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class StaticImage extends MSurface {
+import utopia.basic.Assets;
 
+//Uma imagem simples (implementar efeitos e tals)
+public class StaticImage extends MSurface {
+	private BufferedImage currentImage;
 	
-	public StaticImage(int width, int height, String path) {
-		super(width, height);
+	
+	public StaticImage(String path) {
+		//Carrega imagem do arquivo em PATH
+		super(1, 1);
+		
 		if (path == null) return;
-		this.loadImage(path);
+		currentImage = Assets.openImageFile(path);
+        if (currentImage == null) return; //Não carregou
+        
+        changeSize(currentImage.getWidth(), currentImage.getHeight());
+        getDrawingSurf().drawImage(currentImage, 0, 0, currentImage.getWidth(), currentImage.getHeight(), null);
+		
+		super.validate();
+	}
+	
+	public StaticImage(BufferedImage img) {
+		//Copia a imagem informada
+		super(1, 1);
+		
+		currentImage = img;
+        if (currentImage == null) return; //IMG não existe
+        
+        changeSize(currentImage.getWidth(), currentImage.getHeight());
+        getDrawingSurf().drawImage(currentImage, 0, 0, currentImage.getWidth(), currentImage.getHeight(), null);
+		
 		super.validate();
 	}
 
 	
-	public void loadImage(String path){
-		//Tenta carregar usando PATH como arquivo, depois desenha na imagem principal
-		BufferedImage img = null;
-        try {
-			img = ImageIO.read(new File(path));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        if (img == null) return;
-        super.drawBuffImg(img);
-	}
-	
 	@Override
 	public void updateGraphics() {
-		return; //Nesse caso não há o que atualizar
+		//Nesse caso não há o que atualizar
 	}
 
 }

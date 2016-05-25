@@ -1,0 +1,12 @@
+package utopia.basic;
+
+public enum GameState {
+	TITLE_SCREEN,
+	LOAD_SCREEN,
+	GAME_FIELD,
+	GAME_STATISTICS,
+	GAME_MINISTERS,
+	GAME_TELENEWS,
+	GAME_OVER;
+
+}

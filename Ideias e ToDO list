@@ -1,7 +1,8 @@
 =============================== TO DO ================================
-- Terminar limpeza da MSurface
 
-- Implementar mudança de foco entre MGameScreens
+- Fazer renderer ignorar Surfaces fora do espaço de tela.
+
+- Implementar mudança de foco entre MGameScreens.
 
 - No campo de jogo, o pressionamento longo deve abrir um "ring menu". O menu toma o foco do mouse, e fecha com click comum.
 
@@ -18,9 +19,6 @@
 
 - Renderizar botões interativos com efeitos de hover e ativação.
 
-- Criar enum de transitions (LINEAR, EXP, LOG...)
-
-- Fazer gamescreen ignorar Surfaces fora do espaço de tela.
 
 - Separar tela de jogo em "perspectivas". Cada janela mostra um tipo de informação (estatísticas, terreno, ministros, TV). Criar telas extras para modo multi-monitor
 

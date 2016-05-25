@@ -14,9 +14,9 @@ public abstract class MGameScreen {
 	protected GameGraphics graphics = GameSettings.getGameGraphics();
 	protected InputHandler input = GameSettings.getInputHandler();
 	protected MouseInput mouse = GameSettings.getMouseInput();
+	
 	protected LinkedList<MSurface> surfaces = new LinkedList<MSurface>();
 	private boolean onScreen; //Se está visível e pode receber interação
-	//private int transition; //Nivel da transição para exibir/ocultar (0% - 100%)
 	private boolean hasInputFocus = true;
 	
 	
@@ -24,23 +24,23 @@ public abstract class MGameScreen {
 		//Nothing......
 	}
 	
+	protected abstract void handleMouse(MouseActionType actionType); //Interação do mouse
+
+	protected abstract void handleKeyboard(); //Interação do teclado
+	
+	protected abstract void updateLogic(); //Atualiza
 	
 	public void show(){
-		this.onScreen = true;
+		onScreen = true;
 	}
+	
 	public void hide(){
-		this.onScreen = false;
+		onScreen = false;
 	}
-	
-	protected abstract void handleMouse(MouseActionType actionType); //Lógica do mouse
-
-	protected abstract void handleKeyboard(); //Lógica do teclado
-	
-	protected abstract void updateLogic();
 
 	public void updateAll(){
 		//Atualiza interação (se estiver no foco)
-		if (hasInputFocus){
+		if (onScreen && hasInputFocus){
 			handleKeyboard();
 			MouseActionType mat = mouse.getMouseAction();
 			if (mat != null) handleMouse(mat);
@@ -49,7 +49,7 @@ public abstract class MGameScreen {
 	}
 	
 	public LinkedList<MSurface> getGraphics(){
-		return (onScreen) ? this.surfaces : null;
+		return (onScreen) ? surfaces : null;
 	}
 
 }

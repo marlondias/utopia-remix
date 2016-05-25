@@ -18,10 +18,7 @@ public class GS_RingMenus extends MGameScreen {
 	
 	public GS_RingMenus(){
 		rm_building = new RingMenu(120);
-		rm_terrain = new RingMenu(60);
-		rm_vehicle = new RingMenu(70);
-		
-		rm_building.setCenterAt(400, 200);
+		rm_building.setCenterAt(520, 200);
 		
 		super.surfaces.add(rm_building);
 	}
@@ -49,10 +46,10 @@ public class GS_RingMenus extends MGameScreen {
 	@Override
 	protected void handleKeyboard() {
     	if (super.input.num1.isPressed()){
-    		rm_building.transitionOut(300);
+    		rm_building.hide(300);
     	}
     	if (super.input.num2.isPressed()){
-    		rm_building.transitionIn(300);
+    		rm_building.show(400);
     	}
 		
 	}
@@ -66,7 +63,7 @@ public class GS_RingMenus extends MGameScreen {
 		if (clicked){
 			clicked = false;
 			rm_building.setClick(); //Aqui ele retorna o Enum escolhido (tratar depois)
-			rm_building.transitionOut(300);
+			rm_building.hide(400);
 			
 			//Perde o foco do mouse e teclado
 		}

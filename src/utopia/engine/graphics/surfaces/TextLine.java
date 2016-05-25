@@ -12,7 +12,7 @@ public class TextLine extends MSurface {
 	private Font font; //A fonte a ser usada
 	private Color color = Color.WHITE; //Cor do texto
 	
-
+	
 	public TextLine(String txt, Font fnt) {
 		super(1, 1);
 

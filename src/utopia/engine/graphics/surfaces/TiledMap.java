@@ -14,7 +14,6 @@ public class TiledMap extends MSurface {
     private int xSmallOffset; //Deslocamento (px)
     private int ySmallOffset;
     private boolean needUpdate = true;
-    private boolean valid;
     
 	
 	public TiledMap(MTileset tileset, int width, int height, int[][] map) {
@@ -26,8 +25,6 @@ public class TiledMap extends MSurface {
 		
 		fullMap = tileset.drawTiledMap(map, 35, 35); //Cria o mapa completo
 		
-        this.valid = true;
-        
         super.validate();
 	}
 
@@ -52,26 +49,6 @@ public class TiledMap extends MSurface {
 		if (xSmallOffset > mapLimit) xSmallOffset = mapLimit;
     }
 
-    public void moveU(){
-        if (valid == false) return;
-        verticalMovement(-1);
-    }
-    
-    public void moveD(){
-        if (valid == false) return;
-        verticalMovement(1);
-    }
-    
-    public void moveL(){
-        if (valid == false) return;
-        horizontalMovement(-1);
-    }
-    
-    public void moveR(){
-        if (valid == false) return;
-        horizontalMovement(1);
-    }
-	
     private void centerAtTile(int x, int y){
     	//Calcula o ponto que corresponde ao centro dessa tile
 		int xDest = (x * tileWidth) + (tileWidth / 2);
@@ -100,11 +77,31 @@ public class TiledMap extends MSurface {
 		}
     }
 
+    public void moveU(int speed){
+    	if (speed <= 0) return;
+        if (isValid()) verticalMovement(-1 * speed);
+    }
+    
+    public void moveD(int speed){
+    	if (speed <= 0) return;
+        if (isValid()) verticalMovement(1 * speed);
+    }
+    
+    public void moveL(int speed){
+    	if (speed <= 0) return;
+        if (isValid()) horizontalMovement(-1 * speed);
+    }
+    
+    public void moveR(int speed){
+    	if (speed <= 0) return;
+        if (isValid()) horizontalMovement(1 * speed);
+    }
+
 	public void goToTile(int x, int y){
 		//Implementar smooth scrolling
 		this.centerAtTile(x, y);
 	}
-	    
+	
 	public Point getSnap(int x, int y){
 		if (x < 0 || x >= super.getWidth() || y < 0 || y >= super.getHeight()) return null; //Não está dentro da superfície
 
@@ -130,10 +127,12 @@ public class TiledMap extends MSurface {
 		//Faz a atualização considerando os movimentos laterais do mapa
 		if (!needUpdate) return;
 
-		//Copia apenas a porção visível do FULLMAP
+		//Copia apenas a parte visível do FULLMAP
 		int xPos = xSmallOffset;
 		int yPos = ySmallOffset;
-		super.drawBuffImg(fullMap, xPos, yPos, xPos+super.getWidth(), yPos+super.getHeight());
+		
+		BufferedImage sub = fullMap.getSubimage(xPos, yPos, getWidth(), getHeight());
+		super.getDrawingSurf().drawImage(sub, 0, 0, sub.getWidth(), sub.getHeight(), null);
 		
         needUpdate = false; //As mudanças já ocorreram
 	}
