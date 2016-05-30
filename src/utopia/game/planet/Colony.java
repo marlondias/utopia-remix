@@ -2,6 +2,9 @@ package utopia.game.planet;
 
 import java.util.Date;
 
+import utopia.game.buildings.BuildingType;
+import utopia.game.buildings.PowerGenerationBuilding;
+
 public class Colony {
 	private int durationOfDay = 1000; //Duração de um dia da colônia (em milisegundos)
 	private boolean running = false; //Indica se a atualização ocorre normalmente
@@ -87,5 +90,20 @@ public class Colony {
 	public Date getColonyDate(){
 		return new Date(colonyTime * DAY_IN_MS);
 	}
+
 	
+	public void interactionAt(int x, int y){
+		//O que acontece quando a tile é clicada
+		
+		//Verifica se tem veículos primeiro
+		
+		//Interação com o bloco
+		Block bl = planet.getBlock(x, y);
+		if (bl == null) return;
+		
+		bl.setStructure(new PowerGenerationBuilding(BuildingType.SOLAR_PANEL));
+		
+	}
+	
+
 }

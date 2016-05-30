@@ -96,6 +96,10 @@ public class Planet {
 		}
 	}
 	
+	public Block getBlock(int x, int y){
+		return (x >= 0 && x < width && y >= 0 && y < height) ? terrain[x][y] : null;
+	}
+
 	
 	public int[][] getTerrainMap(){
 		//Versão de testes (que funciona very well)

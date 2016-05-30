@@ -1,5 +1,6 @@
 package utopia.basic;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 import utopia.engine.graphics.gscreen.MGameScreen;
@@ -22,7 +23,11 @@ public class GameStateManager {
     	colony = col;
     	terrain = null;
     }
-    
+
+    public static Colony getColony(){
+    	return colony;
+    }
+
     public static void setGameState(GameState gState){
 		if (!list.isEmpty()) list.clear();
     	
@@ -64,7 +69,10 @@ public class GameStateManager {
     
     public static void updateColony(){
     	colony.update();
-    	System.out.println(colony.getColonyName() + " - " + colony.getColonyDate().toString());
+    }
+    
+    public static Date getColonyDate(){
+    	return (colony != null) ? colony.getColonyDate() : null;
     }
 
 }

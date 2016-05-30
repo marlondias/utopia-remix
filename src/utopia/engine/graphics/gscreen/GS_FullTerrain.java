@@ -2,7 +2,12 @@ package utopia.engine.graphics.gscreen;
 
 import java.awt.Font;
 import java.awt.Point;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import utopia.basic.GameStateManager;
 import utopia.basic.controls.MouseInput.MouseActionType;
 import utopia.basic.helpers.GameSettings;
 import utopia.engine.graphics.MAnimationSheet;
@@ -10,6 +15,7 @@ import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.surfaces.AnimatedImage;
 import utopia.engine.graphics.surfaces.TextLine;
 import utopia.engine.graphics.surfaces.TiledMap;
+import utopia.game.planet.Colony;
 import utopia.game.planet.Planet;
 
 public class GS_FullTerrain extends MGameScreen {
@@ -25,6 +31,8 @@ public class GS_FullTerrain extends MGameScreen {
     private boolean clicked = false;
     private int halfTileW, halfTileH;
     private int moveSpeed = 2;
+    
+	private DateFormat df = new SimpleDateFormat("dd MMM yyyy");
     
     
     public GS_FullTerrain(Planet p) {
@@ -115,24 +123,19 @@ public class GS_FullTerrain extends MGameScreen {
 	@Override
 	protected void updateLogic() {
 		
-		if (false && isDragging){
-			//Verifica a direção do retângulo de seleção (ou quadrante)
-			int quadrante = 2;
-			if ((dragPos1.x < dragPos2.x) && (dragPos1.y > dragPos2.y)) quadrante = 1;
-			if ((dragPos1.x > dragPos2.x) && (dragPos1.y > dragPos2.y)) quadrante = 2;
-			if ((dragPos1.x > dragPos2.x) && (dragPos1.y < dragPos2.y)) quadrante = 3;
-			if ((dragPos1.x < dragPos2.x) && (dragPos1.y < dragPos2.y)) quadrante = 4;
-			
-			//Criar retangulo de seleção entre os pontos..
-		}
-		
 		if (clicked){
-			System.out.println("Click!");
 			clicked = false;
+			
+			System.out.println("Click!");
+			Point p = terrain.getSnap(cursorPos.x, cursorPos.y);
+			GameStateManager.getColony().interactionAt(p.x / terrain.getTileWidth(), p.y / terrain.getTileHeight());
 		}
 		
 		pointer.setCenterAt(cursorPos.x + halfTileW, cursorPos.y + halfTileH);
-
+		if (GameStateManager.getColonyDate() != null){
+			planetName.setString("Hempa - " + df.format(GameStateManager.getColonyDate()));
+		}
+		
 	}
 
 }
