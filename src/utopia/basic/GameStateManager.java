@@ -4,28 +4,29 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import utopia.engine.graphics.gscreen.MGameScreen;
-import utopia.game.planet.Colony;
+import utopia.game.colony.Colony;
+import utopia.game.planet.Planet;
 import utopia.engine.graphics.gscreen.GS_FullTerrain;
 import utopia.engine.graphics.gscreen.GS_RingMenus;
 import utopia.engine.graphics.gscreen.GS_TitleScreen;
 
 public class GameStateManager {
     private static final LinkedList<MGameScreen> list = new LinkedList<>();
-    private static Colony colony;
+    private static Planet planet;
     
     private static GS_TitleScreen tits = new GS_TitleScreen();
     private static GS_RingMenus rings = new GS_RingMenus();
     private static GS_FullTerrain terrain;
     
     
-    public static void setColony(Colony col){
+    public static void setPlanet(Planet p){
     	//Verificar a validade (!)
-    	colony = col;
+    	planet = p;
     	terrain = null;
     }
 
-    public static Colony getColony(){
-    	return colony;
+    public static Planet getPlanet(){
+    	return planet;
     }
 
     public static void setGameState(GameState gState){
@@ -38,8 +39,8 @@ public class GameStateManager {
 		case LOAD_SCREEN:
 			break;
 		case GAME_FIELD:
-			colony.start();
-			if (terrain == null) terrain = new GS_FullTerrain(colony.getPlanet());
+			planet.getTime().start();
+			if (terrain == null) terrain = new GS_FullTerrain(planet);
 			list.add(terrain);
 			break;
 		case GAME_STATISTICS:
@@ -49,6 +50,7 @@ public class GameStateManager {
 		case GAME_TELENEWS:
 			break;
 		case GAME_OVER:
+			planet.getTime().pause();
 			break;
 		default:
 			break;
@@ -67,12 +69,12 @@ public class GameStateManager {
     	}
     }
     
-    public static void updateColony(){
-    	colony.update();
+    public static void updatePlanet(){
+    	if (planet != null) planet.updateDay();
     }
     
     public static Date getColonyDate(){
-    	return (colony != null) ? colony.getColonyDate() : null;
+    	return (planet != null) ? planet.getTime().getCurrentDate() : null;
     }
 
 }

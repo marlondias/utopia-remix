@@ -1,7 +1,7 @@
 package utopia.game.buildings;
 
-//Tem função de segurança, comando e opressão (Security, LaserTurret, MissileLauncher, Launchpad, ShipYard, TankYard)
-public class MilitaryBuilding extends Building{
+//Tem função de segurança, comando e opressão (Security, LaserTurret, MissileLauncher, Launchpad)
+public class MilitaryBuilding extends Building {
 
 	protected MilitaryBuilding(BuildingType bt) {
 		super(bt);

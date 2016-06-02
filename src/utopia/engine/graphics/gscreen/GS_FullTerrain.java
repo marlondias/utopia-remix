@@ -15,8 +15,9 @@ import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.surfaces.AnimatedImage;
 import utopia.engine.graphics.surfaces.TextLine;
 import utopia.engine.graphics.surfaces.TiledMap;
-import utopia.game.planet.Colony;
+import utopia.game.colony.Colony;
 import utopia.game.planet.Planet;
+import utopia.game.planet.Terrain;
 
 public class GS_FullTerrain extends MGameScreen {
     private TiledMap terrain;
@@ -38,15 +39,17 @@ public class GS_FullTerrain extends MGameScreen {
     public GS_FullTerrain(Planet p) {
 		int maxW = GameSettings.getResolution().width;
 		int maxH = GameSettings.getResolution().height;
+
+		Terrain terr = p.getTerrain();
 		
-    	terrain = new TiledMap(new MTileset(48, "res/tilesets/tileset48-terrain.png"), maxW, maxH, p.getTerrainMap());
+    	terrain = new TiledMap(new MTileset(48, "res/tilesets/tileset48-terrain.png"), maxW, maxH, terr.getTerrainMap());
     	terrain.setPosition(0, 0);
     	terrain.show(0);
     	
     	halfTileW = terrain.getTileWidth() >> 1;
     	halfTileH = terrain.getTileHeight() >> 1;
     	
-    	resourcesLayer = new TiledMap(new MTileset(48, "res/tilesets/tileset48-resources.png"), maxW, maxH, p.getResourceMap());
+    	resourcesLayer = new TiledMap(new MTileset(48, "res/tilesets/tileset48-resources.png"), maxW, maxH, terr.getResourceMap());
     	resourcesLayer.setPosition(0, 0);
     	resourcesLayer.hide(0);
     	
@@ -128,7 +131,7 @@ public class GS_FullTerrain extends MGameScreen {
 			
 			System.out.println("Click!");
 			Point p = terrain.getSnap(cursorPos.x, cursorPos.y);
-			GameStateManager.getColony().interactionAt(p.x / terrain.getTileWidth(), p.y / terrain.getTileHeight());
+			GameStateManager.getPlanet().interactionAt(p.x / terrain.getTileWidth(), p.y / terrain.getTileHeight());
 		}
 		
 		pointer.setCenterAt(cursorPos.x + halfTileW, cursorPos.y + halfTileH);

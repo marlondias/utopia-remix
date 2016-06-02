@@ -1,127 +1,75 @@
 package utopia.game.planet;
 
-import java.awt.image.BufferedImage;
-import utopia.basic.helpers.Assets;
-import utopia.game.buildings.Building;
+import utopia.game.buildings.SolarPanel;
+import utopia.game.colony.Colony;
 
-//Representa um planeta e coisas fixas dele
+//Representa as características gerais de um planeta
 public class Planet {
-	private String planetName;
-	private int width; //Tamanho do planeta (em blocos)
-	private int height;
-	private Block[][] terrain; //Matriz com o terreno
-	//Matriz com posição de veículos (TBD)
-	//Tileset e outros gráficos específicos do planeta (TBD)
+	private String name;
+	private long seed;
+	private Time time; //Como relacionar?
+	private Terrain terrain;
+	private Climate climate;
+	private Biosphere biosphere;
+	private Colony colony;
 	
 	
-	public Planet(String name, String file){
-		planetName = name;
-		loadTerrain(file);
+	public Planet(String name, long seed){
+		this.name = name;
+		this.seed = seed;
+		
+		time = new Time(1000);
+		
+		climate = new Climate(20);
+		
+		terrain = new Terrain(35, 35);
+		terrain.loadFromFile("res/planet_hempa.bmp");
+		
+		colony = new Colony("The Earthling's Spot", "Garrix");
 	}
 	
 	
-	public boolean loadTerrain(String file){
-		//Carrega a imagem informada e converte a cor em atributos de terreno
-
-		BufferedImage map = Assets.openImageFile(file);
-		if (map == null) return false; //Erro de carregamento
-		
-		width = map.getWidth();
-		height = map.getHeight();
-
-		terrain = new Block[width][height];
-		int rgb, r, g, b;
-		
-		for (int y=0; y<height; y++){
-			for (int x=0; x<width; x++){
-				rgb = map.getRGB(x, y);
-                r = (rgb >> 16) & 0x000000FF;
-                g = (rgb >> 8) & 0x000000FF;
-                b = (rgb) & 0x000000FF; //(?)
-                
-                //R gera BlockTypes
-                BlockType bt;
-                switch (r) {
-				case 10:
-					bt = BlockType.LAND;
-					break;
-				case 20:
-					bt = BlockType.LAKE;
-					break;
-				case 30:
-					bt = BlockType.MOSS;
-					break;
-				case 40:
-					bt = BlockType.HOLE;
-					break;
-				case 50:
-					bt = BlockType.MOUNTAIN;
-					break;
-				default:
-					bt = BlockType.NULL;
-					break;
-				}
-                terrain[x][y] = new Block(bt);
-                
-                //G gera recursos naturais
-                switch (g) {
-				case 10:
-					terrain[x][y].setFuel();
-					break;
-				case 20:
-					terrain[x][y].setOre();
-					break;
-				default:
-					break;
-				}
-                
-                //Fazer algo com o Blue?
-			}
-		}
-		
-		return true; //Tudo ok
-	}
-
-	public String getName(){
-		return planetName;
-	}
-
 	public void updateDay(){
-		//Atualiza 1 dia para todas as estruturas
-		for(int y=0; y<height; y++){
-			for(int x=0; x<width; x++){
-				Building b = terrain[x][y].getStructure();
-				if (b != null) b.update();
-			}
+		if (time.update()){
+			terrain.updateStructures();
+			climate.update();
+			colony.update();
 		}
+		
 	}
 	
-	public Block getBlock(int x, int y){
-		return (x >= 0 && x < width && y >= 0 && y < height) ? terrain[x][y] : null;
+	public String getName(){
+		return name;
+	}
+	
+	public long getSeed(){
+		return seed;
+	}
+
+	public Time getTime(){
+		return time;
+	}
+
+	public Terrain getTerrain(){
+		return terrain;
+	}
+
+	public Colony getColony(){
+		return colony;
 	}
 
 	
-	public int[][] getTerrainMap(){
-		//Versão de testes (que funciona very well)
-		int[][] tiles = new int[width][height];
-		for(int y=0; y<height; y++){
-			for(int x=0; x<width; x++){
-				tiles[x][y] = terrain[x][y].getTileID();
-			}
-		}
-		return tiles;
+	
+	public void interactionAt(int x, int y){
+		//O que acontece quando a tile é clicada
+		
+		//Verifica se tem veículos primeiro
+		
+		//Interação com o bloco
+		Block bl = terrain.getBlock(x, y);
+		if (bl == null) return;
+		bl.setStructure(new SolarPanel());
+		
 	}
 
-	public int[][] getResourceMap(){
-		int[][] tiles = new int[width][height];
-		for(int y=0; y<height; y++){
-			for(int x=0; x<width; x++){
-				if (terrain[x][y].hasFuel()) tiles[x][y] = 1;
-				else if (terrain[x][y].hasOre()) tiles[x][y] = 2;
-				else tiles[x][y] = 0;
-			}
-		}
-		return tiles;
-	}
-	
 }
