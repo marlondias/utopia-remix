@@ -135,8 +135,12 @@ public class GS_FullTerrain extends MGameScreen {
 		}
 		
 		pointer.setCenterAt(cursorPos.x + halfTileW, cursorPos.y + halfTileH);
-		if (GameStateManager.getColonyDate() != null){
-			planetName.setString("Hempa - " + df.format(GameStateManager.getColonyDate()));
+		
+		if (GameStateManager.getDate() != null){
+		planetName.setString("Hempa - "
+				+ df.format(GameStateManager.getDate())
+				+ " - "
+				+ GameStateManager.getTemperature() + "ºC");
 		}
 		
 	}

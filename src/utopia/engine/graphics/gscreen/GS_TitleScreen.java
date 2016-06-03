@@ -52,6 +52,7 @@ public class GS_TitleScreen extends MGameScreen {
 				else if(pointer.y > 374 && pointer.y < 408){
 					//Carregar
 					System.out.println("Carregar...");
+					GameStateManager.setGameState(GameState.GAME_STATISTICS);
 				}
 			}
 			else if(pointer.y > 509 && pointer.y < 543){

@@ -1,7 +1,9 @@
 package utopia.game.planet;
 
+import utopia.basic.GameStateManager;
 import utopia.game.buildings.SolarPanel;
 import utopia.game.colony.Colony;
+import utopia.game.planet.Climate.Season;
 
 //Representa as características gerais de um planeta
 public class Planet {
@@ -18,9 +20,11 @@ public class Planet {
 		this.name = name;
 		this.seed = seed;
 		
-		time = new Time(1000);
+		time = new Time(100);
 		
-		climate = new Climate(20);
+		climate = new Climate(this.seed, 0, 30);
+		GameStateManager.setTemperature(climate.getMinTemperature());
+		GameStateManager.setTemperature(climate.getMaxTemperature());
 		
 		terrain = new Terrain(35, 35);
 		terrain.loadFromFile("res/planet_hempa.bmp");
@@ -31,11 +35,14 @@ public class Planet {
 	
 	public void updateDay(){
 		if (time.update()){
-			terrain.updateStructures();
+			terrain.update();
 			climate.update();
 			colony.update();
+			
+			GameStateManager.setDate(time.getCurrentDate());
+			GameStateManager.setTemperature(climate.getCurrentTemperature());
+			
 		}
-		
 	}
 	
 	public String getName(){
@@ -59,7 +66,6 @@ public class Planet {
 	}
 
 	
-	
 	public void interactionAt(int x, int y){
 		//O que acontece quando a tile é clicada
 		
@@ -67,8 +73,7 @@ public class Planet {
 		
 		//Interação com o bloco
 		Block bl = terrain.getBlock(x, y);
-		if (bl == null) return;
-		bl.setStructure(new SolarPanel());
+		if (bl != null) bl.setStructure(new SolarPanel());
 		
 	}
 

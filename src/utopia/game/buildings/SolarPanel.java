@@ -25,6 +25,7 @@ public class SolarPanel extends Building implements PowerGenerator {
 	@Override
 	protected void updateDuty() {
 		// TODO Auto-generated method stub
+		System.out.println("To gerando " + output + " MW");
 		
 	}
 

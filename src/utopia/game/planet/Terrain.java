@@ -9,7 +9,6 @@ public class Terrain {
 	private final int width; //Tamanho do planeta (em blocos)
 	private final int height;
 	private final Block[] terrain;
-	//private Block[][] terrain; //Matriz com o terreno (converter em array)
 	
 	
 	public Terrain(int width, int height){
@@ -26,13 +25,10 @@ public class Terrain {
 	
 	public Block getBlock(int x, int y){
 		//Retorna o bloco na posição informada (se existir)
-		if (x >= 0 && x < width && y >= 0 && y < height){
-			return terrain[getIndexTo(x, y)];
-		}
-		return null;
+		return (x >= 0 && x < width && y >= 0 && y < height) ? terrain[getIndexTo(x, y)] : null;
 	}
 	
-	public void updateStructures(){
+	public void update(){
 		for (Block bl : terrain){
 			//Atualizar todas as estruturas
 			Building b = bl.getStructure();
