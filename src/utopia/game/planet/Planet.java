@@ -20,11 +20,9 @@ public class Planet {
 		this.name = name;
 		this.seed = seed;
 		
-		time = new Time(100);
+		time = new Time(1000);
 		
 		climate = new Climate(this.seed, 0, 30);
-		GameStateManager.setTemperature(climate.getMinTemperature());
-		GameStateManager.setTemperature(climate.getMaxTemperature());
 		
 		terrain = new Terrain(35, 35);
 		terrain.loadFromFile("res/planet_hempa.bmp");
@@ -36,12 +34,13 @@ public class Planet {
 	public void updateDay(){
 		if (time.update()){
 			terrain.update();
+			climate.setSeason(time.getCurrentSeason());
 			climate.update();
 			colony.update();
 			
+			
 			GameStateManager.setDate(time.getCurrentDate());
 			GameStateManager.setTemperature(climate.getCurrentTemperature());
-			
 		}
 	}
 	

@@ -24,6 +24,8 @@ public class GS_FullTerrain extends MGameScreen {
     private TiledMap resourcesLayer;
     private TextLine planetName;
     private AnimatedImage pointer;
+    private TextLine temp;
+    private TextLine umi;
 
     private Point cursorPos = new Point();
     private Point dragPos1 = new Point();
