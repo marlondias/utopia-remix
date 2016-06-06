@@ -34,9 +34,9 @@ public class Planet {
 	public void updateDay(){
 		if (time.update()){
 			terrain.update();
-			climate.setSeason(time.getCurrentSeason());
-			climate.update();
-			colony.update();
+			//climate.setSeason(time.getCurrentSeason());
+			//climate.update();
+			//colony.update();
 			
 			
 			GameStateManager.setDate(time.getCurrentDate());

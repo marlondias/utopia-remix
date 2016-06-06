@@ -1,3 +1,16 @@
+quality:
+a = (b[i+2] – b[i+1]) – (b[i-1] – b[i]); // bicubic interpolation
+b = (b[i-1] – b[i]) – a;
+c = b[i+1] – b[i-1];
+d = decimal value
+output = ((a * d + b) * d + c) * d + b[i];
+
+a = (3 * (b[i] – b[i+1]) – b[i-1] + b[i+2]) * 0.5; // hermite interpolation
+b = b[i+1] + b[i+1] + b[i-1] – (5 * b[i] + b[i+2]) * 0.5;
+c = (b[i+1] – b[i-1]) * 0.5;
+d = decimal value
+output = ((a * d + b) * d + c) * d + b[i];
+
 =============================== TO DO ================================
 
 - Renderizar botões interativos com efeitos de hover e ativação.

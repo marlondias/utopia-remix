@@ -108,8 +108,6 @@ public class Climate {
 	public void update(){
 		updateHumidity();
 		updateTemperature();
-		
-		System.out.println("Season is " + season.toString());
 	}
 
 	public void setSeason(Season s){
