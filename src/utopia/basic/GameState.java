@@ -7,6 +7,7 @@ public enum GameState {
 	GAME_STATISTICS,
 	GAME_MINISTERS,
 	GAME_TELENEWS,
-	GAME_OVER;
+	GAME_OVER,
+	TESTE;
 
 }

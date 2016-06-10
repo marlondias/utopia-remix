@@ -16,7 +16,6 @@ public class GS_ClimateStats extends MGameScreen {
 	private Button btn = new Button(100, 48);
 	private Point pointer = new Point();
 	private HeightMap map = new HeightMap(600, 600);
-	private PerlinNoise perlin = new PerlinNoise(123);
 	
 	
 	public GS_ClimateStats() {
@@ -29,7 +28,7 @@ public class GS_ClimateStats extends MGameScreen {
 		btn.setPosition(10, 10);
 		
 		map.setPosition(150, 0);
-		map.setMap(perlin.generateTerrain(600, 600, 6));
+		map.setMap(PerlinNoise.generatePerlinNoise(123, 600, 600, 6));
 		map.show(0);
 		
 		//super.surfaces.add(bg);

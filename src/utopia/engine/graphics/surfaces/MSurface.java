@@ -106,14 +106,14 @@ public abstract class MSurface {
 	
 	public abstract void updateGraphics(); //Atualiza posições e objetos antes de exibir
 	
-	public BufferedImage getRenderedImage(){
-		if (!valid) return null;
+	public void selfDraw(Graphics2D g2d){
+		if (!valid) return;
 		
 		currentTransitionLevel = transition.getTransitionLevel();
 		updateGraphics();
 		
-		//Retorna a imagem, se estiver visível
-		return (currentTransitionLevel > 0) ? renderImg : null;
+		//Desenha, se estiver visível
+		if (currentTransitionLevel > 0) g2d.drawImage(renderImg, posX, posY, width, height, null);
 	}
 
 }

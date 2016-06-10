@@ -3,13 +3,12 @@ package utopia.game.planet;
 import utopia.basic.GameStateManager;
 import utopia.game.buildings.SolarPanel;
 import utopia.game.colony.Colony;
-import utopia.game.planet.Climate.Season;
 
 //Representa as características gerais de um planeta
 public class Planet {
 	private String name;
 	private long seed;
-	private Time time; //Como relacionar?
+	private Time time;
 	private Terrain terrain;
 	private Climate climate;
 	private Biosphere biosphere;
@@ -24,8 +23,7 @@ public class Planet {
 		
 		climate = new Climate(this.seed, 0, 30);
 		
-		terrain = new Terrain(35, 35);
-		terrain.loadFromFile("res/planet_hempa.bmp");
+		terrain = new Terrain(this.seed, 100, 75);
 		
 		colony = new Colony("The Earthling's Spot", "Garrix");
 	}

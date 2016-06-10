@@ -2,6 +2,7 @@ package utopia.game.planet;
 
 import java.awt.image.BufferedImage;
 import utopia.basic.helpers.Assets;
+import utopia.basic.helpers.TerrainGenerator;
 import utopia.game.buildings.Building;
 
 //Informações sobre as regiões geográficas de um planeta
@@ -11,10 +12,11 @@ public class Terrain {
 	private final Block[] terrain;
 	
 	
-	public Terrain(int width, int height){
+	public Terrain(long seed, int width, int height){
 		this.width = width;
 		this.height = height;
 		this.terrain = new Block[width * height];
+		generateTerrain(seed);
 	}
 	
 	
@@ -36,7 +38,17 @@ public class Terrain {
 		}
 	}
 	
-	//public boolean generate(long seed);
+	public void generateTerrain(long seed){
+		//Gera proceduralmente um terreno completo para o planeta
+		Block[][] terr = TerrainGenerator.generatePlanetTerrain(seed, width, height);
+		int i=0;
+		for (int y=0; y<height; y++){
+			for (int x=0; x<width; x++){
+				terrain[i] = terr[x][y];
+				i++;
+			}
+		}
+	}
 	
 	public boolean loadFromFile(String file){
 		//Carrega a imagem informada e converte a cor em atributos de terreno
@@ -61,7 +73,7 @@ public class Terrain {
 				bt = BlockType.LAND;
 				break;
 			case 20:
-				bt = BlockType.LAKE;
+				bt = BlockType.WATER;
 				break;
 			case 30:
 				bt = BlockType.MOSS;

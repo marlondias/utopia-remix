@@ -3,10 +3,7 @@ package utopia.engine.graphics.gscreen;
 import java.awt.Font;
 import java.awt.Point;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import utopia.basic.GameStateManager;
 import utopia.basic.controls.MouseInput.MouseActionType;
 import utopia.basic.helpers.GameSettings;
@@ -15,7 +12,6 @@ import utopia.engine.graphics.MTileset;
 import utopia.engine.graphics.surfaces.AnimatedImage;
 import utopia.engine.graphics.surfaces.TextLine;
 import utopia.engine.graphics.surfaces.TiledMap;
-import utopia.game.colony.Colony;
 import utopia.game.planet.Planet;
 import utopia.game.planet.Terrain;
 
@@ -24,8 +20,6 @@ public class GS_FullTerrain extends MGameScreen {
     private TiledMap resourcesLayer;
     private TextLine planetName;
     private AnimatedImage pointer;
-    private TextLine temp;
-    private TextLine umi;
 
     private Point cursorPos = new Point();
     private Point dragPos1 = new Point();
@@ -53,7 +47,7 @@ public class GS_FullTerrain extends MGameScreen {
     	
     	resourcesLayer = new TiledMap(new MTileset(48, "res/tilesets/tileset48-resources.png"), maxW, maxH, terr.getResourceMap());
     	resourcesLayer.setPosition(0, 0);
-    	resourcesLayer.hide(0);
+    	resourcesLayer.show(0);
     	
     	planetName = new TextLine("Planet " + p.getName(), new Font("Monospaced", Font.PLAIN, 19));
     	int nameX = (maxW / 2) - (planetName.getWidth() / 2);

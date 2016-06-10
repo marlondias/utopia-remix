@@ -17,6 +17,7 @@ public class Assets {
 	public static final Color ICON_SELECTED_COLOR = Color.decode("#FF8B43");
 	
 	public static final MTileset TILESET_TERRAIN = new MTileset(48, 48, "res/tilesets/tileset48-terrain.png");
+	public static final MTileset TILESET_TERRAIN_MINI = new MTileset(8, 8, "res/tilesets/tileset8-terrain.png");
 	public static final MTileset TILESET_RESOURCES = new MTileset(48, 48, "res/tilesets/tileset48-resources.png");
 	
 	

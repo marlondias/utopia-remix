@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import utopia.engine.graphics.gscreen.MGameScreen;
 import utopia.game.colony.Colony;
 import utopia.game.planet.Planet;
+import utopia.engine.graphics.gscreen.GS_AreaTeste;
 import utopia.engine.graphics.gscreen.GS_ClimateStats;
 import utopia.engine.graphics.gscreen.GS_FullTerrain;
 import utopia.engine.graphics.gscreen.GS_RingMenus;
@@ -17,6 +18,7 @@ public class GameStateManager {
     private static GS_TitleScreen tits = new GS_TitleScreen();
     private static GS_FullTerrain terrain;
     private static GS_ClimateStats stats = new GS_ClimateStats();
+    private static GS_AreaTeste teste = new GS_AreaTeste();
     
     private static Planet planet;
     private static Date date; //Data no planeta
@@ -53,6 +55,9 @@ public class GameStateManager {
 			break;
 		case GAME_OVER:
 			planet.getTime().pause();
+			break;
+		case TESTE:
+			list.add(teste);
 			break;
 		default:
 			break;

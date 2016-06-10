@@ -46,14 +46,10 @@ public class GameGraphics {
             layers = GameStateManager.getGameScreens();
             
             //Para cada camada, desenha o conteúdo das subcamadas (se possível)
-            BufferedImage tmp;
             for (MGameScreen gScr : layers){
             	if (gScr.getGraphics() == null) continue; //Camada não está visivel
             	for (MSurface surf : gScr.getGraphics()){
-            		tmp = surf.getRenderedImage();
-                	if (tmp != null){
-                		g2d.drawImage(tmp, surf.getX(), surf.getY(), tmp.getWidth(), tmp.getHeight(), null);
-                	}
+            		surf.selfDraw(g2d);
             	}
             }
             
@@ -69,6 +65,7 @@ public class GameGraphics {
     }
 
     public void addLayer(MGameScreen gs){
+    	//Remover
     	if (gs != null) layers.add(gs);
     }
 

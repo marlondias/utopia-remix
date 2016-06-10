@@ -1,52 +1,85 @@
 package utopia.engine.graphics.surfaces;
 
-import java.awt.Point;
 import java.awt.image.BufferedImage;
-
 import utopia.engine.graphics.MTileset;
+import utopia.game.planet.Block;
+import utopia.game.planet.BlockType;
 
-//Superfície 2d que controla e renderiza um mapa composto por tiles
-public class TiledMap extends MSurface {
+public class TiledMapB extends MSurface {
+    private int[][] tileID; //Matriz de tiles
+    private int width, height; //Dimensão da matriz de tiles
+    
+	private MTileset tileset;
+	private int tileWidth, tileHeight; //Dimensões da tile (pixels)
+    
     private BufferedImage fullMap; //Imagem do mapa completo
-	private MTileset tileset; //Permite apenas 1 tileset
-	private int tileWidth; //Dimensões da tile (px)
-    private int tileHeight;
-    private int xSmallOffset; //Deslocamento (px)
-    private int ySmallOffset;
+    private int xSmallOffset = 0; //Deslocamento (px)
+    private int ySmallOffset = 0;
     private boolean needUpdate = true;
     
-	
-	public TiledMap(MTileset tileset, int width, int height, int[][] map) {
+    
+	public TiledMapB(int width, int height, MTileset ts) {
 		super(width, height);
-
-		if (tileset.isValid()) this.tileset = tileset;
+		
+		tileset = ts;
 		tileWidth = tileset.getTileWidth();
-		tileHeight = tileset.getTileHeight();
+		tileWidth = tileset.getTileHeight();
 		
-		fullMap = tileset.drawTiledMap(map, map.length, map[0].length); //Cria o mapa completo
-		
-        super.validate();
+		validate();
 	}
-
-
+	
+	
+	public void setTiles(BlockType[][] tiles){
+		//Lê os blocos, converte, relaciona os cantos e armazena na matriz de IDs
+		
+		width = tiles.length;
+		height = tiles[0].length;
+		tileID = new int[width][height];
+		
+		for (int x=0; x<width; x++){
+			for (int y=0; y<height; y++){
+				if (tiles[x][y] == BlockType.LAND_WATER){
+					//Tratar fronteira
+					
+					BlockType top = null, bottom = null, left = null, right = null;
+					if (x > 0) left = tiles[x-1][y];
+					if (x < width-1) right = tiles[x+1][y];
+					if (y > 0) top = tiles[x][y-1];
+					if (y < height-1) bottom = tiles[x][y+1];
+					tileID[x][y] = BlockType.getBorderTileID(tiles[x][y], left, right, top, bottom);
+					
+				}
+				else tileID[x][y] = tiles[x][y].getTileID();
+			}
+		}
+		
+		fullMap = tileset.drawTiledMap(tileID, width, height);
+	}
+	
     private void verticalMovement(int units){
     	//Calcula movimentos no eixo Y
     	if (units == 0) return;
-    	needUpdate = true;
+    	int oldOffset = ySmallOffset;
+    	
 		ySmallOffset += units;
 		if (ySmallOffset < 0) ySmallOffset = 0;
 		int mapLimit = fullMap.getHeight() - super.getHeight();
 		if (ySmallOffset > mapLimit) ySmallOffset = mapLimit;
+		
+    	needUpdate = (oldOffset == ySmallOffset);
     }
 
     private void horizontalMovement(int units){
     	//Calcula movimentos no eixo X
     	if (units == 0) return;
-    	needUpdate = true;
+    	int oldOffset = xSmallOffset;
+    	
 		xSmallOffset += units;
 		if (xSmallOffset < 0) xSmallOffset = 0;
 		int mapLimit = fullMap.getWidth() - super.getWidth();
 		if (xSmallOffset > mapLimit) xSmallOffset = mapLimit;
+
+    	needUpdate = (oldOffset == xSmallOffset);
     }
 
     private void centerAtTile(int x, int y){
@@ -101,25 +134,15 @@ public class TiledMap extends MSurface {
 		//Implementar smooth scrolling
 		this.centerAtTile(x, y);
 	}
-	
-	public Point getSnap(int x, int y){
-		if (x < 0 || x >= super.getWidth() || y < 0 || y >= super.getHeight()) return null; //Não está dentro da superfície
 
-		int offsetX = -(xSmallOffset % tileWidth); //Deslocamentos em relação ao grid inicial
-		int offsetY = -(ySmallOffset % tileHeight);
+	public void autoMove(int speed){
+		//Move o mapa automaticamente no sentido horário
 		
-		int snappedX = (((x-offsetX) / tileWidth) * tileWidth) + offsetX; //Novos valores do ponto obedecendo o grid inicial
-		int snappedY = (((y-offsetY) / tileHeight) * tileHeight) + offsetY;
+		if (!needUpdate) moveR(speed);
+		if (!needUpdate) moveD(speed);
+		if (!needUpdate) moveL(speed);
+		if (!needUpdate) moveU(speed);
 		
-		return new Point(snappedX, snappedY);
-	}
-	
-	public int getTileWidth(){
-		return tileWidth;
-	}
-
-	public int getTileHeight(){
-		return tileHeight;
 	}
 
 	@Override
@@ -136,5 +159,5 @@ public class TiledMap extends MSurface {
 		
         needUpdate = false; //As mudanças já ocorreram
 	}
-	
+
 }

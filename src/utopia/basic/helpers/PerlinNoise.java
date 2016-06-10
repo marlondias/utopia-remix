@@ -3,15 +3,25 @@ package utopia.basic.helpers;
 import java.util.Random;
 
 public class PerlinNoise {
-	private final long seed;
+	private static boolean isCosine = true;
+
 	
-	
-	public PerlinNoise(long seed){
-		this.seed = seed;
+	private static double linearInterpolation(double a, double b, double alpha){
+		//Interpolação linear de dois valores
+		return (a * (1 - alpha)) + (b * alpha);
+	}
+
+	private static double cosineInterpolation(double a, double b, double alpha){
+		//Interpolação ~cosenoide~ de dois valores
+		double alpha2 = (1 - Math.cos(alpha * Math.PI)) / 2;
+		return (a * (1 - alpha2) + b * alpha2);
 	}
 	
-	
-	private double[][] generateWhiteNoise(int width, int height){
+	private static double interpolate(double a, double b, double alpha){
+		return (isCosine) ? cosineInterpolation(a, b, alpha) : linearInterpolation(a, b, alpha);
+	}
+
+	private static double[][] generateWhiteNoise(int width, int height, long seed){
 		//Gera um array 2D com valores aleatórios entre 0 e 1
 		Random random = new Random(seed);
 	    double[][] noise = new double[width][height];
@@ -23,7 +33,7 @@ public class PerlinNoise {
 	    return noise;
 	}
 
-	private double[][] generateSmoothNoise(double[][] baseNoise, int octave){
+	private static double[][] generateSmoothNoise(double[][] baseNoise, int octave){
 		//Gera uma versão suavizada do ruído base, onde a oitava controla a intensidade
 		
 		/* 
@@ -49,7 +59,7 @@ public class PerlinNoise {
 			int sample_x1 = (sample_x0 + samplePeriod) % width; //wrap around
 			double horizontal_blend = (x - sample_x0) * sampleFrequency;
 			
-			for (int y=0; y<width; y++){
+			for (int y=0; y<height; y++){
 				//Calcular os índices verticais de amostragem (sample)
 				int sample_y0 = (y / samplePeriod) * samplePeriod;
 				int sample_y1 = (sample_y0 + samplePeriod) % height; //wrap around
@@ -69,24 +79,20 @@ public class PerlinNoise {
 		return smooth;
 	}
 
-	private double interpolate(double a, double b, double alpha){
-		//Interpolação linear de dois valores
-		return (a * (1 - alpha)) + (b * alpha);
-	}
-
 	/**
 	 * Gera um ruído gradiente utilizando o método Perlin Noise, por padrão a interpolação é linear.
 	 * 
 	 * @param
+	 * seed controla os valores aleatórios,
 	 * width e height são as dimensões do array,
 	 * octaveCount é o número de oitavas a serem processadas
 	 * 
 	 * @return double[][] contendo valores entre 0 e 1
 	 */
-	public double[][] generatePerlinNoise(int width, int height, int octaveCount){
+	public static double[][] generatePerlinNoise(long seed, int width, int height, int octaveCount){
 		
 		//Gera o ruído base do tamanho desejado
-		double[][] baseNoise = generateWhiteNoise(width, height);
+		double[][] baseNoise = generateWhiteNoise(width, height, seed);
 		
 		//Array com todas as versões suavizadas do ruído base
 		double[][][] smoothNoise = new double[octaveCount][][];
@@ -132,20 +138,4 @@ public class PerlinNoise {
 		return perlinNoise;
 	}
 	
-	public double[][] generateTerrain(int width, int height, int octaveCount){
-		double[][] terrain = generatePerlinNoise(width, height, octaveCount);
-		
-		for (int x=0; x<width; x++){
-			for (int y=0; y<height; y++){
-				double value = terrain[x][y];
-				
-				if (value < 0.5) value *= 0.2;
-				else value = (1 + value) / 2;
-				
-				terrain[x][y] = value;
-			}
-		}
-		
-		return terrain;
-	}
 }
