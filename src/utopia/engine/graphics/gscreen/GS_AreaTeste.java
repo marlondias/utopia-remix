@@ -24,9 +24,7 @@ public class GS_AreaTeste extends MGameScreen {
 		double[][] pn = PerlinNoise.generatePerlinNoise(1, 100, 100, 5); 
 		for (int x=0; x<100; x++){
 			for (int y=0; y<100; y++){
-				if (pn[x][y] < 0.3) pn[x][y] = 1;
-				else pn[x][y] = 0;
-				
+				if (pn[x][y] < 0.5) pn[x][y] = 0;
 			}
 		}
 		
@@ -34,6 +32,7 @@ public class GS_AreaTeste extends MGameScreen {
 		hmap.show(0);
     	
     	surfaces.add(hmap);
+//    	surfaces.add(terrain);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ public class GameLogic {
 	
 	public GameLogic(){
 		GameStateManager.setPlanet( new Planet("Merkuri", 1));
-        GameStateManager.setGameState(GameState.TITLE_SCREEN);
+        GameStateManager.setGameState(GameState.TESTE);
 	}
 	
     public void update(){
