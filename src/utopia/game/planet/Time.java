@@ -5,7 +5,13 @@ import java.util.Date;
 
 import utopia.game.planet.Climate.Season;
 
-//Representa a passagem dos dias de um planeta em relação ao tempo real
+/***
+ * Representa a passagem dos tempo em um planeta. Controla datas, registra eventos e permite 
+ * avançar ou retroceder no tempo de jogo.
+ * 
+ * @author marlon
+ *
+ */
 public class Time {
 	private final int durationOfDay; //Duração de um dia virtual (ms)
 	private final Calendar calendar = Calendar.getInstance();

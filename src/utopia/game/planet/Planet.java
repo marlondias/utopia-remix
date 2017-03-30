@@ -4,25 +4,49 @@ import utopia.basic.GameStateManager;
 import utopia.game.buildings.SolarPanel;
 import utopia.game.colony.Colony;
 
-//Representa as características gerais de um planeta
+/***
+ * Reune as características gerais do planeta de jogo. Processos e eventos de nível global são iniciados
+ * aqui e delegados às classes correspondentes.
+ * 
+ * TODO: customName vs nativeName para o título do planeta.
+ * 
+ * @author marlon
+ *
+ */
 public class Planet {
-	private String name;
-	private long seed;
+	private final long seed; //Repassar esse valor para qualquer objeto Random
+	private String name; // Nome do planeta
+	
+	private final Climate climate;
+	
+
 	private Time time;
 	private Terrain terrain;
-	private Climate climate;
-	private Biosphere biosphere;
 	private Colony colony;
+	// TODO: Alien races, Biosphere, ColonyStatus, Terrain, Timer, HistoryLine, TimeTravel
+	// TODO: Será possível voltar no tempo até 15 dias de jogo, portanto deve haver um registrador de eventos.
 	
 	
-	public Planet(String name, long seed){
-		this.name = name;
-		this.seed = seed;
+	public Planet(long seed, String name, int seasonsCount){
+		this.seed = seed; // Não é necessário checar
+		
+		// Inicializa nome do planeta (failsafe)
+		if(name != null && !name.isEmpty()) this.name = name;
+		else this.name = "(unknown)";
+		
+		// Inicializa clima (quantidade de estações é automática)
+		climate = new Climate(seed);
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		time = new Time(1000);
-		
-		climate = new Climate(this.seed, 0, 30);
-		
+				
 		terrain = new Terrain(this.seed, 100, 75);
 		
 		colony = new Colony("The Earthling's Spot", "Garrix");
@@ -30,6 +54,8 @@ public class Planet {
 	
 	
 	public void updateDay(){
+		//TODO: Time deve enviar um sinal quando o dia mudar, as classes devem escutar esse sinal e se virarem
+		
 		if (time.update()){
 			terrain.update();
 			//climate.setSeason(time.getCurrentSeason());
@@ -50,6 +76,10 @@ public class Planet {
 		return seed;
 	}
 
+	
+	
+	
+	
 	public Time getTime(){
 		return time;
 	}
