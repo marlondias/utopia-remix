@@ -18,9 +18,8 @@ public class Planet {
 	private String name; // Nome do planeta
 	
 	private final Climate climate;
+	private final CalendarSystem calendar;
 	
-
-	private Time time;
 	private Terrain terrain;
 	private Colony colony;
 	// TODO: Alien races, Biosphere, ColonyStatus, Terrain, Timer, HistoryLine, TimeTravel
@@ -37,6 +36,9 @@ public class Planet {
 		// Inicializa clima (quantidade de estações é automática)
 		climate = new Climate(seed);
 		
+		// Inicializa calendário
+		calendar = new CalendarSystem();
+		calendar.setDate(1, 1, 1990);
 		
 		
 		
@@ -45,44 +47,33 @@ public class Planet {
 		
 		
 		
-		time = new Time(1000);
 				
 		terrain = new Terrain(this.seed, 100, 75);
 		
 		colony = new Colony("The Earthling's Spot", "Garrix");
 	}
-	
-	
-	public void updateDay(){
-		//TODO: Time deve enviar um sinal quando o dia mudar, as classes devem escutar esse sinal e se virarem
-		
-		if (time.update()){
-			terrain.update();
-			//climate.setSeason(time.getCurrentSeason());
-			//climate.update();
-			//colony.update();
-			
-			
-			GameStateManager.setDate(time.getCurrentDate());
-			GameStateManager.setTemperature(climate.getCurrentTemperature());
-		}
-	}
-	
-	public String getName(){
-		return name;
-	}
+
 	
 	public long getSeed(){
 		return seed;
 	}
 
-	
-	
-	
-	
-	public Time getTime(){
-		return time;
+	public String getName(){
+		return name;
 	}
+	
+	public void updateDay(){
+		calendar.update();
+		climate.update();
+		
+		//TODO: Time deve enviar um sinal quando o dia mudar, as classes devem escutar esse sinal e se virarem
+		
+		terrain.update();
+		climate.update();
+			
+		GameStateManager.setTemperature(climate.getCurrentTemperature());
+	}
+	
 
 	public Terrain getTerrain(){
 		return terrain;

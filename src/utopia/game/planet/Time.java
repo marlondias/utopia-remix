@@ -15,7 +15,6 @@ import utopia.game.planet.Climate.Season;
 public class Time {
 	private final int durationOfDay; //Duração de um dia virtual (ms)
 	private final Calendar calendar = Calendar.getInstance();
-	private Season season = Season.EQUIAT;
 	private boolean running = false; //Indica se a atualização ocorre normalmente
 	private boolean fast = false; //Dobra velocidade de atualização
 	private long time_lastUpdate = 0L;
@@ -90,7 +89,4 @@ public class Time {
 		return calendar.getTime();
 	}
 
-	public Season getCurrentSeason(){
-		return season;
-	}
 }
