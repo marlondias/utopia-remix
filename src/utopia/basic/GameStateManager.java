@@ -21,10 +21,6 @@ public class GameStateManager {
     private static GS_AreaTeste teste = new GS_AreaTeste();
     
     private static Planet planet;
-    private static Date date; //Data no planeta
-    private static float temperature; //Temperatura atual no planeta (diária)
-       
-    
     
 
     public static void setGameState(GameState gState){
@@ -37,24 +33,20 @@ public class GameStateManager {
 		case LOAD_SCREEN:
 			break;
 		case GAME_FIELD:
-			planet.getTime().start();
 			if (terrain == null) terrain = new GS_FullTerrain(planet);
 			list.add(terrain);
 			break;
 		case GAME_STATISTICS:
-			planet.getTime().start();
-			list.add(stats);
+			//Abre planilhas excel
 			break;
 		case GAME_MINISTERS:
-			planet.getTime().pause();
 			//Abre reunião
 			break;
 		case GAME_TELENEWS:
-			planet.getTime().pause();
 			//Abre TV
 			break;
 		case GAME_OVER:
-			planet.getTime().pause();
+			//Um esqueleto com cabeça alien, sentado em um trono high tech.
 			break;
 		case TESTE:
 			list.add(teste);
@@ -86,26 +78,4 @@ public class GameStateManager {
     	return planet;
     }
     
-    public static void updatePlanet(){
-    	if (planet == null) return;
-    	planet.updateDay();
-    }
-    
-    public static void setTemperature(float temp){
-    	stats.addTemperature(temp);
-    	temperature = temp;
-    }
-    
-    public static float getTemperature(){
-    	return temperature;
-    }
-    
-    public static void setDate(Date dt){
-    	date = dt;
-    }
-
-    public static Date getDate(){
-    	return date;
-    }
-
 }

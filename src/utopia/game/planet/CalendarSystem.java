@@ -76,6 +76,7 @@ public class CalendarSystem {
 		
 		currentYear = year;
 		currentDay = newDay;
+		updateValues();
 	}
 	
 	private void updateValues(){
@@ -102,7 +103,12 @@ public class CalendarSystem {
 		currentDayWeek = currentDay % weekDuration;
 	}
 	
-	public void update(){
+	public void previousDay(){
+		currentDay--;
+		updateValues();
+	}
+
+	public void nextDay(){
 		currentDay++;
 		updateValues();
 	}

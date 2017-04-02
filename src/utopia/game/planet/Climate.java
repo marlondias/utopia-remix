@@ -93,11 +93,11 @@ public class Climate {
 	}
 	
 	public float getCurrentWindSpeed(){
-		return minWindSpeed + (deltaWindSpeed * seasons[seasonsCount].getWindSpeed());
+		return minWindSpeed + (deltaWindSpeed * seasons[currentSeason].getWindSpeed());
 	}
 
 	public void update(){
-		seasons[seasonsCount].update();
+		seasons[currentSeason].update();
 		//magic
 	}
 

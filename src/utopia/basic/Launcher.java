@@ -1,7 +1,7 @@
 package utopia.basic;
 
 public class Launcher {
-	public static GameLoop GL;
+	public static GameLoop GAME_LOOP;
 
 	public static void main(String[] args) {
 		//Abrir janela comum com opções de idioma, resolução e fullscreen
@@ -15,8 +15,8 @@ public class Launcher {
 		//Mostrar tela de título com New, Load e Exit.
 		
 		//System.out.println("Iniciando loop de jogo..");
-		GL = new GameLoop();
-        GL.start();
+		GAME_LOOP = new GameLoop();
+        GAME_LOOP.start();
 	}
 
 }

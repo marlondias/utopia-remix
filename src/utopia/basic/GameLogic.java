@@ -5,12 +5,12 @@ import utopia.game.planet.Planet;
 public class GameLogic {
 	
 	public GameLogic(){
-		GameStateManager.setPlanet( new Planet("Merkuri", 1));
-        GameStateManager.setGameState(GameState.TESTE);
+		GameStateManager.setPlanet(new Planet(1234, "Atlas"));
+        GameStateManager.setGameState(GameState.GAME_FIELD);
 	}
 	
     public void update(){
-    	GameStateManager.updatePlanet();
+    	GameStateManager.getPlanet().getClock().update();
     	GameStateManager.updateGameScreens();
     }
 	

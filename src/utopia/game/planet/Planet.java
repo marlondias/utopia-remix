@@ -17,8 +17,9 @@ public class Planet {
 	private final long seed; //Repassar esse valor para qualquer objeto Random
 	private String name; // Nome do planeta
 	
-	private final Climate climate;
+	private final ClockSystem clock;
 	private final CalendarSystem calendar;
+	private final Climate climate;
 	
 	private Terrain terrain;
 	private Colony colony;
@@ -26,31 +27,30 @@ public class Planet {
 	// TODO: Será possível voltar no tempo até 15 dias de jogo, portanto deve haver um registrador de eventos.
 	
 	
-	public Planet(long seed, String name, int seasonsCount){
+	public Planet(long seed, String name){
 		this.seed = seed; // Não é necessário checar
 		
 		// Inicializa nome do planeta (failsafe)
 		if(name != null && !name.isEmpty()) this.name = name;
 		else this.name = "(unknown)";
 		
+		// Inicializa o calendário em uma data especial
+		calendar = new CalendarSystem();
+		calendar.setDate(7, 4, 1993);
+		
+		// Inicializa o relógio, avançando 1 minuto in-game para cada update (1 dia = 1440)
+		clock = new ClockSystem(100);
+		clock.addCalendar(calendar);
+		
+
 		// Inicializa clima (quantidade de estações é automática)
 		climate = new Climate(seed);
 		
-		// Inicializa calendário
-		calendar = new CalendarSystem();
-		calendar.setDate(1, 1, 1990);
+		
+
 		
 		
-		
-		
-		
-		
-		
-		
-				
 		terrain = new Terrain(this.seed, 100, 75);
-		
-		colony = new Colony("The Earthling's Spot", "Garrix");
 	}
 
 	
@@ -62,27 +62,26 @@ public class Planet {
 		return name;
 	}
 	
-	public void updateDay(){
-		calendar.update();
-		climate.update();
-		
-		//TODO: Time deve enviar um sinal quando o dia mudar, as classes devem escutar esse sinal e se virarem
-		
-		terrain.update();
-		climate.update();
-			
-		GameStateManager.setTemperature(climate.getCurrentTemperature());
+	public ClockSystem getClock(){
+		return clock;
 	}
 	
-
+	public CalendarSystem getCalendar(){
+		return calendar;
+	}
+	
+	public Climate getClimate(){
+		return climate;
+	}
+	
+	
+	
+	
+	
+	
 	public Terrain getTerrain(){
 		return terrain;
 	}
-
-	public Colony getColony(){
-		return colony;
-	}
-
 	
 	public void interactionAt(int x, int y){
 		//O que acontece quando a tile é clicada
