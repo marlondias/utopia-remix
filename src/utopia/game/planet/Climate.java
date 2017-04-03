@@ -95,10 +95,13 @@ public class Climate {
 	public float getCurrentWindSpeed(){
 		return minWindSpeed + (deltaWindSpeed * seasons[currentSeason].getWindSpeed());
 	}
+	
+	public void prevDay(){
+		//busca valores do dia anterior no histórico
+	}
 
-	public void update(){
+	public void nextDay(){
 		seasons[currentSeason].update();
-		//magic
 	}
 
 }

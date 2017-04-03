@@ -19,10 +19,10 @@ public class ClockSystem {
 	private int currentHours;
 	private int currentMinutes;
 	private boolean reverse = false;
-	private CalendarSystem calendar;
+	private final Planet planet;
 	
 	
-	public ClockSystem(int ticksInDay){
+	public ClockSystem(int ticksInDay, Planet p){
 		absoluteHour = 1F / hoursInDay;
 		absoluteMinute = absoluteHour / minutesInHour;
 		currentAbsTime = 0F;
@@ -30,8 +30,11 @@ public class ClockSystem {
 		currentMinutes = 0;
 		
 		// Armazena o quando cada update deve influenciar no tempo absoluto
-		if (ticksInDay < 1) throw new IllegalArgumentException("Invalid value for ticks in a day.");
+		if (ticksInDay < 1) throw new IllegalArgumentException("The duration of a day must be at least 1 tick.");
 		absoluteIncrement = 1F / ticksInDay;
+		
+		if (p == null) throw new IllegalArgumentException("Planet cannot be null.");
+		else planet = p;
 	}
 	
 
@@ -50,21 +53,9 @@ public class ClockSystem {
 		updateValues();
 	}
 	
-	public void addCalendar(CalendarSystem cal){
-		calendar = cal;
-	}
-
 	private void updateValues(){
 		currentHours = (int)(currentAbsTime / absoluteHour);
 		currentMinutes = (int)((currentAbsTime % absoluteHour) / absoluteMinute);
-	}
-	
-	private void changeNextDay(){
-		if (calendar != null) calendar.nextDay();
-	}
-
-	private void changePreviousDay(){
-		if (calendar != null) calendar.previousDay();
 	}
 
 	public void update(){
@@ -83,6 +74,16 @@ public class ClockSystem {
 			}
 		}
 		updateValues();
+	}
+
+	private void changeNextDay(){
+		planet.getCalendar().nextDay();
+		planet.getClimate().nextDay();
+	}
+
+	private void changePreviousDay(){
+		planet.getCalendar().prevDay();
+		planet.getClimate().prevDay();
 	}
 
 }

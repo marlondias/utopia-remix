@@ -103,7 +103,7 @@ public class CalendarSystem {
 		currentDayWeek = currentDay % weekDuration;
 	}
 	
-	public void previousDay(){
+	public void prevDay(){
 		currentDay--;
 		updateValues();
 	}
