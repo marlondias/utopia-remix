@@ -132,23 +132,24 @@ public class GS_FullTerrain extends MGameScreen {
 		
 		pointer.setCenterAt(cursorPos.x + halfTileW, cursorPos.y + halfTileH);
 		
+		String name = GameStateManager.getPlanet().getName();
 		
 		String date = String.format("%02d %02d %d", 
-				GameStateManager.getPlanet().getCalendar().getCurrentDayInMonth(),
-				GameStateManager.getPlanet().getCalendar().getCurrentMonth(),
-				GameStateManager.getPlanet().getCalendar().getCurrentYear()
+				GameStateManager.getPlanet().getTime().getCurrentDayInMonth(),
+				GameStateManager.getPlanet().getTime().getCurrentMonth(),
+				GameStateManager.getPlanet().getTime().getCurrentYear()
 				);
 		
 		String time = String.format("%02d:%02d", 
-				GameStateManager.getPlanet().getClock().getHours(),
-				GameStateManager.getPlanet().getClock().getMinutes()
+				GameStateManager.getPlanet().getTime().getHours(),
+				GameStateManager.getPlanet().getTime().getMinutes()
 				);
 		
 		String temperature = (int)GameStateManager.getPlanet().getClimate().getCurrentTemperature() + "ºC";
 		
 		String wind = GameStateManager.getPlanet().getClimate().getCurrentWindSpeed() + "m/s";
 		
-		planetName.setString("Hempa - "+date+" "+time+" "+temperature);
+		planetName.setString(name+" "+time+" "+date+" "+temperature);
 		
 	}
 

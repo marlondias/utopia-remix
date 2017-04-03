@@ -10,7 +10,7 @@ public class GameLogic {
 	}
 	
     public void update(){
-    	GameStateManager.getPlanet().getClock().update();
+    	GameStateManager.getPlanet().getTime().update();
     	GameStateManager.updateGameScreens();
     }
 	

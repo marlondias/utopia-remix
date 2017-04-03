@@ -9,7 +9,6 @@ import java.util.Random;
  * @author marlon
  *
  */
-
 public class Climate {
 	private final Random randomizer;
 	private final float minNaturalTemperature; // Medido em ºC
